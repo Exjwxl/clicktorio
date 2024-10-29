@@ -1,5 +1,5 @@
 let clicks = 0;
-let upgrade = 2;
+let upgrade = 10;
 let upgradeCost = 10;
 let autoClickerActive = false;
 let autoClickerSpeed = 1000;
@@ -12,6 +12,8 @@ const MAX_CLICKS = 1_000_000_000_000; // 1 trillion
 function updateDisplayElements(){
   document.getElementById('score').innerHTML = `Clicks: ${clicks}`; 
   document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${upgradeCost}`;
+  document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = `${autoClickerUpgradeCost}`;
+
   
   debug()
 }
@@ -46,6 +48,7 @@ function autoClicker() {
       }, autoClickerSpeed);
       
       autoClickerActive = true;
+      document.getElementById("autoClicker").innerHTML = "Stop Auto Clicker";
       updateDisplayElements();
     } else {
       alert(`You need ${autoClickerUpgradeCost} clicks to start auto-clicking!`);
@@ -53,6 +56,7 @@ function autoClicker() {
   } else {
     clearInterval(autoClickerInterval);
     autoClickerActive = false;
+    document.getElementById("autoClicker").innerHTML = "Start Auto Clicker";
     updateDisplayElements();
   }
 }

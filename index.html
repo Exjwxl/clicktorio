@@ -5,28 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Game</title>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h2 style="text-align:center">Click to Gain Clicks</h2>
     <section id="game">
-        <p>Click to Gain Clicks</p>
-        <button id="clicker" onclick="clicker()">
-            CLICK
-        </button>
-        <p id="score">Clicks:0 </p>
+        <div class="baseinfo">
+            <button id="clicker" onclick="clicker()">
+                CLICK
+            </button>
+            <h4 id="score">Clicks:0 </h4>
 
-        <button id="upgrade" onclick="upgradeFn()">Upgrade</button>
+        </div>
+        <div class="baseUpgrades">
+            <button id="upgrade" onclick="upgradeFn()">Upgrade</button>
+            <p id="upgradeCostDisplay">Upgrade Cost: 10</p>
 
-        <p id="upgradeCostDisplay">Upgrade Cost: 10</p>
+        </div>
 
     </section>
     <section id="autoShop" 
         style="display: flex;
-        border: 2px solid red;
+        border-top: 2px solid rgb(0, 0, 0);
         padding:10px;
         margin: 10px;
         ">
-        <button id="autoClicker" onclick="autoClicker()">Start Auto Clicker</button>
-        <p id="autoClickerCost">Cost: 100 clicks</p>
+        <button id="autoClicker" onclick="autoClicker()">Start Auto Clicker:100</button>
         <button onclick="autoClickerUpgrade()">Upgrade autoClicker: <span id="autoClickerUpgradeCostDisplay"></span></button>
     </section>
     <button onclick="resetClicks()">Reset</button>
