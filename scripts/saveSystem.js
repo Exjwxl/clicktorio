@@ -1,5 +1,5 @@
 import { gameState } from './state.js';
-import { startAutoClicker } from './autoclicker.js';
+import { startAutoClicker } from './autoc.js';
 import { SAVE_KEY } from './config.js';
 
 export function saveGame() {

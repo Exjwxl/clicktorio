@@ -1,6 +1,6 @@
 import { gameState } from './state.js';
 import { handleUpgrade } from './upgrades.js';
-import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './autoclicker.js';
+import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './autoc.js';
 import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
 import { formatNumber } from './formatters.js';
