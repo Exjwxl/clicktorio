@@ -4,35 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Game</title>
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script type="module" src="scripts/main.js"></script>
+
 </head>
 <body>
     <h2 style="text-align:center">Click to Gain Clicks</h2>
     <section id="game">
-        <div class="baseinfo">
-            <button id="clicker" onclick="clicker()">
-                CLICK
-            </button>
-            <h4 id="score">Clicks:0 </h4>
+        <section id="click">
+            <div class="baseinfo">
+                <button id="clicker" onclick="clicker()">
+                    CLICK
+                </button>
+                <h4 id="score">Clicks:0 </h4>
+    
+            </div>
+            <div class="baseUpgrades">
+                <button id="upgrade" onclick="upgradeClick()">Upgrade Clicks</button>
+                <h4 id="upgradeCostDisplay">Upgrade Cost: 10<h4/>
+    
+            </div>
+        </section>
 
-        </div>
-        <div class="baseUpgrades">
-            <button id="upgrade" onclick="upgradeFn()">Upgrade</button>
-            <p id="upgradeCostDisplay">Upgrade Cost: 10</p>
-
-        </div>
-
-    </section>
-    <section id="autoShop" 
+        <section id="autoShop" 
         style="display: flex;
         border-top: 2px solid rgb(0, 0, 0);
         padding:10px;
         margin: 10px;
         ">
-        <button id="autoClicker" onclick="autoClicker()">Start Auto Clicker:100</button>
-        <button onclick="autoClickerUpgrade()">Upgrade autoClicker: <span id="autoClickerUpgradeCostDisplay"></span></button>
+
+        <button id="autoClicker" onclick="toggleAutoClicker()">Start Auto Clicker:100</button>
+        <button onclick="upgradeAutoClicker()"> <span id="autoClickerUpgradeCostDisplay"></span></button>
+        </section>
+        <section class="options">
+        <h4><u>OPTIONS</u></h4>
+        <div id="options">
+            <button onclick="resetGame()">Reset Game</button>
+            <button onclick="manualSave()">Save Game</button>
+            
+        </div>
+        
+        </section>
     </section>
-    <button onclick="resetClicks()">Reset</button>
+
 </body>
 </html>
