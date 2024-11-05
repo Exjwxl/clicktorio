@@ -18,7 +18,7 @@ window.upgradeClick = () => {
     }
 };
 
-//:/
+//://
 
 // Auto clicker handlers
 window.toggleAutoClicker = () => {
