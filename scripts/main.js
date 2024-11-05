@@ -18,6 +18,8 @@ window.upgradeClick = () => {
     }
 };
 
+//:/
+
 // Auto clicker handlers
 window.toggleAutoClicker = () => {
     if (!gameState.autoClickerActive && gameState.clicks >= 100) {  // Cost to start auto clicker
