@@ -80,3 +80,41 @@ export function updateDisplayElements() {
     document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
         `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
 }
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     const logoImage = document.querySelector('.gameTitle img');
+
+//     logoImage.addEventListener('click', () => {
+//         // Change animation speed
+//         logoImage.style.animation = 'rotate 3s ease-in-out infinite';
+
+//         // Revert back to original speed after 1 second
+//         setTimeout(() => {
+//             logoImage.style.animation = 'rotate 7s ease-in-out infinite';
+//         }, 1000);
+//     });
+// });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logoImage = document.querySelector('.gameTitle img');
+
+    logoImage.addEventListener('click', () => {
+        // Start with a fast spin
+        let duration = 2;
+        logoImage.style.animationDuration = `${duration}s`;
+
+        // Function to gradually slow down the animation
+        const slowDown = () => {
+            duration += 0.05; // Gradually increase duration to slow down
+            logoImage.style.animationDuration = `${duration}s`;
+
+            // Continue slowing down until reaching the normal speed
+            if (duration < 7) {
+                requestAnimationFrame(slowDown);
+            }
+        };
+
+        // Start the slowdown process
+        requestAnimationFrame(slowDown);
+    });
+});
