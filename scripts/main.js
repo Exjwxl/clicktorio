@@ -22,14 +22,17 @@ window.upgradeClick = () => {
 
 // Auto clicker handlers
 window.toggleAutoClicker = () => {
-    if (!gameState.autoClickerActive && gameState.clicks >= 100) {  // Cost to start auto clicker
-        gameState.clicks -= 100;  // Deduct cost
+    if (gameState.autoClickerActive) {
+        stopAutoClicker();
+        return;
+    }
+
+    if (gameState.clicks >= 100) {
+        gameState.clicks -= 100;
         startAutoClicker();
         updateDisplayElements();
-    } else if (!gameState.autoClickerActive) {
-        alert('You need 100 clicks to start Auto Clicker!');
     } else {
-        stopAutoClicker();
+        alert('You need 100 clicks to start Auto Clicker!');
     }
 };
 

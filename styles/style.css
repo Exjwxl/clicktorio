@@ -1,9 +1,40 @@
+
+
+.gameTitle{
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.gameTitle img {
+    width: 60px;
+    height: 60px;
+    animation: rotate 7s linear infinite;
+    /* border: 1px solid green; */
+    margin-top: 22px;
+}
+
+.logoName{
+    font-size: 35px;
+    /* border: 1px solid red; */
+}
+
 #game{
     /* display: flex; */
     justify-content:space-evenly; 
     align-items: center;
     background-color: rgba(53, 31, 31, 0.5);
     border: 2px solid black;
+    border-top: none;
     padding: 10px;
 }
 #click{
