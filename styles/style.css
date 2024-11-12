@@ -80,6 +80,7 @@ button {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     padding: 10px 20px;
     cursor: pointer;
