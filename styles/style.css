@@ -77,6 +77,10 @@ button:focus{
 }
 
 button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    touch-action: manipulation;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 10px;
