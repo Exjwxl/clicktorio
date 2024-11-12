@@ -127,3 +127,62 @@ button {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* #controls{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid black;
+    border-top: none;
+}
+
+#controls button{
+    margin: 00;
+    cursor: pointer;
+    border-radius: 0%;
+} */
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.game-footer {
+    display: flex;
+    justify-content: space-between; /* Evenly space items */
+    align-items: center;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff; /* Example background color */
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer-button {
+    flex: 1; /* Make buttons take equal space */
+    text-align: center;
+    background-color: #fffcfc; /* Example button color */
+    color: rgb(0, 0, 0);
+    border: 1px solid #999;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 0%;
+}
+
+.footer-button:hover {
+    background-color: #555; /* Example hover color */
+}
+
+.footer-button:first-child {
+    margin-left: 0; /* Ensure no gap on the left */
+}
+
+.footer-button:last-child {
+    margin-right: 0; /* Ensure no gap on the right */
+}
