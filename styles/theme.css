@@ -1,0 +1,42 @@
+/* Define default color profile */
+:root {
+  --background-color: rgba(53, 31, 31, 0.5);
+  --border-color: black;
+  --body-background-color: rgb(255, 255, 255);
+}
+
+/* Define a dark theme */
+[data-theme="Dark"] {
+  --body-background-color: #393646;
+  --background-color: #4F4557;
+  --border-color: rgb(0, 0, 0);
+  --button-background-color: #6D5D6E;
+  --color: #F4EEE0;
+}
+
+/* Define a light theme */
+[data-theme="Light"] {
+  --background-color: rgba(240, 240, 240, 0.8);
+  --border-color: black;
+  --body-background-color: rgb(255, 255, 255);
+}
+
+/* Use the variables in your styles */
+#game {
+  background-color: var(--background-color);
+  border: 2px solid var(--border-color);
+}
+
+body {
+  background-color: var(--body-background-color);
+  color: var(--color);
+}
+
+#autoShop {
+  background-color: var(--background-color);
+}
+
+button {
+  background-color: var(--button-background-color);
+  color: var(--button-color);
+}

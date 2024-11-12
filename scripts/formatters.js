@@ -7,3 +7,23 @@ export function formatNumber(num) {
 
     return num.toLocaleString();
   }
+
+  // theme.js
+
+export function setTheme(theme) {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = theme || (currentTheme === 'Dark' ? 'Light' : 'Dark');
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme); // Save the theme preference
+  document.getElementById('toggleTheme').innerHTML = `Change theme to ${currentTheme} `;
+
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'Light'; // Default to light theme
+  setTheme(savedTheme);
+});
+
+
+  

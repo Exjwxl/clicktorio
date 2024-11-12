@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clicktorio</title>
     <link rel="shortcut icon" href="assets/images/logo/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet"  href="styles/style.css">
+    <link rel="stylesheet" href="styles/theme.css">
     <script type="module" src="scripts/main.js"></script>
+    <script type="module" src="scripts/formatters.js"></script>
 
 </head> 
 <body>
@@ -49,6 +51,7 @@
         <div id="options">
             <button onclick="resetGame()">Reset Game</button>
             <button onclick="manualSave()">Save Game</button>
+            <button id="toggleTheme" onclick="setTheme()">Dark Mode</button>
             
         </div>
         

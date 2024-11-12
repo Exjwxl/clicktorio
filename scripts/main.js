@@ -3,7 +3,10 @@ import { handleUpgrade } from './upgrades.js';
 import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './autoc.js';
 import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
-import { formatNumber } from './formatters.js';
+import { formatNumber, setTheme } from './formatters.js';
+
+
+window.setTheme = setTheme;
 
 // Click handler
 window.clicker = () => {
@@ -79,6 +82,7 @@ export function updateDisplayElements() {
     document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
     document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
         `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
+    
 }
 
 
@@ -105,3 +109,4 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(slowDown);
     });
 });
+
