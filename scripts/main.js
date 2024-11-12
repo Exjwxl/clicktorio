@@ -4,7 +4,7 @@ import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './a
 import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
 import { formatNumber, setTheme } from './formatters.js';
-import { loreModal } from './modals.js';
+import { loreModal, settingsModal } from './modals.js';
 
 window.setTheme = setTheme; // Loading theme
 window.onload = loreModal; // Inital Modal
@@ -88,6 +88,7 @@ export function updateDisplayElements() {
     
 }
 
+settingsModal();
 
 document.addEventListener('DOMContentLoaded', () => {
     const logoImage = document.querySelector('.gameTitle img');
