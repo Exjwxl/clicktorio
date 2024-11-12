@@ -4,9 +4,10 @@ import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './a
 import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
 import { formatNumber, setTheme } from './formatters.js';
+import { loreModal } from './modals.js';
 
-
-window.setTheme = setTheme;
+window.setTheme = setTheme; // Loading theme
+window.onload = loreModal; // Inital Modal
 
 // Click handler
 window.clicker = () => {
@@ -18,7 +19,6 @@ window.clicker = () => {
 window.upgradeClick = () => {
     if (handleUpgrade()) {
         updateDisplayElements();
-        
     }
 };
 
@@ -54,9 +54,12 @@ window.manualSave = () => {
 window.resetGame = () => {
   if (confirm('Are you sure you want to reset the game? This cannot be undone!')) {
       localStorage.removeItem('clickerGameSave');
+      localStorage.removeItem('loreModalShown');
       gameState.reset();
       stopAutoClicker();
       updateDisplayElements();
+      location.reload();
+    
   }
 };
 

@@ -15,7 +15,7 @@ export function setTheme(theme) {
   const newTheme = theme || (currentTheme === 'Dark' ? 'Light' : 'Dark');
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme); // Save the theme preference
-  document.getElementById('toggleTheme').innerHTML = `Change theme to ${currentTheme} `;
+  document.getElementById('toggleTheme').innerHTML = `Change theme to ${newTheme === 'Dark' ? 'Light' : 'Dark'} `;
 
 }
 
