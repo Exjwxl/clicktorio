@@ -4,7 +4,7 @@ export const SAVE_KEY = 'clickerGameSave';
 
 export const INITIAL_STATE = {
     clicks: 0,
-    upgrade: 2,
+    upgrade: 1,
     upgradeCost: 10,
     autoClickerActive: false,
     autoClickerSpeed: 1000,

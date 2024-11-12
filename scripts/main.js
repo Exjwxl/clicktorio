@@ -15,10 +15,10 @@ window.clicker = () => {
 window.upgradeClick = () => {
     if (handleUpgrade()) {
         updateDisplayElements();
+        
     }
 };
 
-//://
 
 // Auto clicker handlers
 window.toggleAutoClicker = () => {
@@ -75,25 +75,12 @@ window.addEventListener('beforeunload', () => {
 
 // Display update - now includes auto clicker cost
 export function updateDisplayElements() {
-    document.getElementById('score').innerHTML = `Clicks: ${formatNumber(gameState.clicks)}`;
+    document.getElementById('score').innerHTML = `Clicks: ${formatNumber(gameState.clicks)} (+ ${formatNumber(gameState.upgrade)})`;
     document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
     document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
         `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
 }
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     const logoImage = document.querySelector('.gameTitle img');
-
-//     logoImage.addEventListener('click', () => {
-//         // Change animation speed
-//         logoImage.style.animation = 'rotate 3s ease-in-out infinite';
-
-//         // Revert back to original speed after 1 second
-//         setTimeout(() => {
-//             logoImage.style.animation = 'rotate 7s ease-in-out infinite';
-//         }, 1000);
-//     });
-// });
 
 document.addEventListener('DOMContentLoaded', () => {
     const logoImage = document.querySelector('.gameTitle img');

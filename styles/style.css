@@ -30,6 +30,10 @@
     transition: animation-duration 0.5s ease-in-out; /* Smooth transition */
 
 }
+.titleCard{
+    text-align: center;
+    font-weight: bolder;
+}
 
 .logoName{
     font-size: 35px;
@@ -53,6 +57,7 @@
     
 }
 
+
 body {
     background-color: rgb(255, 255, 255);
     padding: 10px;
@@ -69,4 +74,11 @@ body {
 .options{
     margin: 10px;
     cursor: pointer;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    
 }
