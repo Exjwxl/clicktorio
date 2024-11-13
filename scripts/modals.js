@@ -23,3 +23,28 @@ export function loreModal(){
         }
     };
 };
+
+export function settingsModal(){
+    document.addEventListener('DOMContentLoaded', () => {
+        const optionsButton = document.getElementById('optionsButton');
+        const optionsModal = document.getElementById('settingsModal');
+        const closeOptions = document.querySelector('.close-options');
+    
+        // Show the options modal when the Options button is clicked
+        optionsButton.addEventListener('click', () => {
+            optionsModal.style.display = 'block';
+        });
+    
+        // Close the options modal when the close button is clicked
+        closeOptions.addEventListener('click', () => {
+            optionsModal.style.display = 'none';
+        });
+    
+        // Close the options modal when clicking outside of the modal content
+        window.addEventListener('click', (event) => {
+            if (event.target === optionsModal) {
+                optionsModal.style.display = 'none';
+            }
+        });
+    });
+}

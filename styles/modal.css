@@ -1,0 +1,134 @@
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+    
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+html{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.game-footer {
+    display: flex;
+    justify-content: space-between; /* Evenly space items */
+    align-items: center;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff; /* Example background color */
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer-button {
+    flex: 1; /* Make buttons take equal space */
+    text-align: center;
+    background-color: #fffcfc; /* Example button color */
+    color: rgb(0, 0, 0);
+    border: 1px solid #999;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 0%;
+}
+
+.footer-button:hover {
+    background-color: #555; /* Example hover color */
+}
+
+.footer-button:first-child {
+    margin-left: 0; /* Ensure no gap on the left */
+}
+
+.footer-button:last-child {
+    margin-right: 0; /* Ensure no gap on the right */
+}
+
+.settingsModal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+.options-content {
+    background-color: #d0d0d0;
+    margin: 20% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.close-options {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-options:hover,
+.close-options:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.options-style{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.options-style button {
+    margin: 5px 0;
+}
