@@ -5,8 +5,8 @@ import { SAVE_KEY } from './config.js';
 export function saveGame() {
     try {
         const gameData = {
-            clicks: gameState.clicks,
-            upgrade: gameState.upgrade,
+            resources: gameState.resources, 
+            efficiency: gameState.efficiency,
             upgradeCost: gameState.upgradeCost,
             autoClickerActive: gameState.autoClickerActive,
             autoClickerSpeed: gameState.autoClickerSpeed,

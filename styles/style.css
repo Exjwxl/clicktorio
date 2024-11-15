@@ -3,7 +3,7 @@
 .gameTitle{
     display: flex;
     justify-content: center;
-    border: 2px solid black;
+    /* border: 2px solid black; */
 
 }
 
@@ -49,11 +49,11 @@
     padding: 10px;
     flex: 1;
 }
-#click{
+#mines{
     display: flex;
     justify-content:space-evenly;
-    text-align: center;
-    padding-top: 10px;
+    /* text-align: center; */
+    /* padding-top: 10px; */
     
 }
 

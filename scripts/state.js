@@ -1,12 +1,14 @@
 import { INITIAL_STATE, MAX_CLICKS } from './config.js';
+import { updateDisplayElements } from './main.js';
 
 class GameState {
     constructor() {
         Object.assign(this, INITIAL_STATE);
     }
 
-    addClicks(amount) {
-        this.clicks = Math.min(MAX_CLICKS, this.clicks + amount);
+    updateResource(resourceName, amount) {
+        this.resources[resourceName] = this.resources[resourceName] + amount;
+        updateDisplayElements()
     }
 
     reset() {

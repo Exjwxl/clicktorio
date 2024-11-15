@@ -22,29 +22,8 @@
             <p>In Clicktorio, every click builds your path from a humble beginning to a powerful production empire! Harvest resources, upgrade your machinery, and optimize production lines as you create the most efficient operation possible. Simplicity meets strategy—let’s see how far your clicks can take you!</p>
         </div>
     </div>
-
-    <div class="gameTitle">
-        <p class="logoName">CLICKT</p>
-        <img src="assets/images/logo/clicktorio_logo.png" alt="logo">
-        <p class="logoName">RIO</p>
-    </div>
     <section id="game">
-        <div class="titleCard">
-            <p>Click to Gain Clicks</p>
-            <p>Reach 1T Clicks!</p>
-        </div>
-        <section id="click">
-            <div class="baseinfo">
-                <button id="clicker" onclick="clicker()">
-                    CLICK
-                </button>
-                <h4 id="score">Clicks:0 </h4>
-            </div>
-            <div class="baseUpgrades">
-                <button id="upgrade" onclick="upgradeClick()">Upgrade Clicks</button>
-                <h4 id="upgradeCostDisplay">Upgrade Cost: 10<h4/>
-    
-            </div>
+        
         </section>
 
         <section id="autoShop" 
@@ -59,15 +38,20 @@
         </section>
 </section>
 <footer class="game-footer">
-    <button class="footer-button">Mechanic 1</button>
-    <button class="footer-button">Mechanic 2</button>
-    <button class="footer-button">Mechanic 3</button>
+    <button class="footer-button" id="loadMechanic1">Mechanic 1</button>
+    <button class="footer-button" id="loadMechanic2">Mechanic 2</button>
+    <button class="footer-button" id="loadMechanic3">Mechanic 3</button>
     <button class="footer-button" id="optionsButton">Settings</button>
 </footer>
 
 <div id="settingsModal" class="settingsModal">
     <div class="options-content">
         <span class="close-options">&times;</span>
+        <div class="gameTitle">
+            <p class="logoName">CLICKT</p>
+            <img src="assets/images/logo/clicktorio_logo.png" alt="logo">
+            <p class="logoName">RIO</p>
+        </div>
             <div class="options-style">
                 <h2>Options</h2>
                 <button onclick="resetGame()">Reset Game</button>

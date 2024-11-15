@@ -5,15 +5,40 @@ import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
 import { formatNumber, setTheme } from './formatters.js';
 import { loreModal, settingsModal } from './modals.js';
+import {getMechanic1} from '../pages/mechanic1.js';
+import {getMechanic2} from '../pages/mechanic2.js';
+import {getMechanic3} from '../pages/mechanic3.js';
 
 window.setTheme = setTheme; // Loading theme
 window.onload = loreModal; // Inital Modal
 
-// Click handler
-window.clicker = () => {
-    gameState.addClicks(gameState.upgrade);
-    updateDisplayElements();
+
+window.mineIron = () => {
+    gameState.updateResource('iron',gameState.efficiency);
 };
+
+window.mineStone = () => {
+    gameState.updateResource('stone',gameState.efficiency);
+};
+
+window.mineCopper = () => {
+    gameState.updateResource('copper',gameState.efficiency);
+};
+
+window.mineCoal = () => {
+    gameState.updateResource('coal',gameState.efficiency);
+};
+
+export function updateDisplayElements() {
+    document.getElementById('ironOre').innerHTML = `Iron Ore: ${formatNumber(gameState.resources.iron)} (+ ${formatNumber(gameState.efficiency)})`;
+    document.getElementById('stone').innerHTML = `Stone: ${formatNumber(gameState.resources.stone)} (+ ${formatNumber(gameState.efficiency)})`;
+    document.getElementById('copperOre').innerHTML = `Copper Ore: ${formatNumber(gameState.resources.copper)} (+ ${formatNumber(gameState.efficiency)})`;
+    document.getElementById('coal').innerHTML = `Coal: ${formatNumber(gameState.resources.coal)} (+ ${formatNumber(gameState.efficiency)})`;
+    document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
+    document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
+        `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
+    
+}
 
 // Upgrade handler
 window.upgradeClick = () => {
@@ -21,6 +46,19 @@ window.upgradeClick = () => {
         updateDisplayElements();
     }
 };
+//Screen functions
+function defaultScreeen(){
+    document.getElementById('game').innerHTML = getMechanic1();
+}
+
+function switchContent(getMechanicContent) {
+    document.getElementById('game').innerHTML = getMechanicContent();
+    updateDisplayElements();
+}
+
+document.getElementById('loadMechanic1').addEventListener('click', () => switchContent(getMechanic1));
+document.getElementById('loadMechanic2').addEventListener('click', () => switchContent(getMechanic2));
+document.getElementById('loadMechanic3').addEventListener('click', () => switchContent(getMechanic3));
 
 
 // Auto clicker handlers
@@ -65,6 +103,7 @@ window.resetGame = () => {
 
 // Initialize game
 document.addEventListener('DOMContentLoaded', () => {
+  defaultScreeen(); // Initial screen
   loadGame();
   updateDisplayElements();
   
@@ -77,16 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // Save before leaving
 window.addEventListener('beforeunload', () => {
     saveGame();
+
 });
 
 // Display update - now includes auto clicker cost
-export function updateDisplayElements() {
-    document.getElementById('score').innerHTML = `Clicks: ${formatNumber(gameState.clicks)} (+ ${formatNumber(gameState.upgrade)})`;
-    document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
-    document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
-        `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
-    
-}
+
 
 settingsModal();
 
