@@ -1,5 +1,5 @@
 import { INITIAL_STATE, MAX_CLICKS } from './config.js';
-import { updateDisplayElements } from './main.js';
+import { updateDisplayElements } from './display.js';
 
 class GameState {
     constructor() {

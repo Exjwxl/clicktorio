@@ -8,17 +8,6 @@ export function formatNumber(num) {
     return num.toLocaleString();
   }
 
-export function updateDisplayElements() {
-    document.getElementById('ironOre').innerHTML = `Iron Ore: ${formatNumber(gameState.resources.iron)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('stone').innerHTML = `Stone: ${formatNumber(gameState.resources.stone)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('copperOre').innerHTML = `Copper Ore: ${formatNumber(gameState.resources.copper)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('coal').innerHTML = `Coal: ${formatNumber(gameState.resources.coal)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
-    document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
-        `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
-    
-}
-
 
 export function setTheme(theme) {
   const currentTheme = document.documentElement.getAttribute('data-theme');

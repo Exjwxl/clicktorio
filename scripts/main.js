@@ -3,7 +3,8 @@ import { handleUpgrade } from './upgrades.js';
 import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './autoc.js';
 import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
-import { formatNumber, setTheme } from './formatters.js';
+import { setTheme  } from './formatters.js';
+import { updateDisplayElements } from './display.js';
 import { loreModal, settingsModal } from './modals.js';
 import {getMechanic1} from '../pages/mechanic1.js';
 import {getMechanic2} from '../pages/mechanic2.js';
@@ -29,16 +30,6 @@ window.mineCoal = () => {
     gameState.updateResource('coal',gameState.efficiency);
 };
 
-export function updateDisplayElements() {
-    document.getElementById('ironOre').innerHTML = `Iron Ore: ${formatNumber(gameState.resources.iron)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('stone').innerHTML = `Stone: ${formatNumber(gameState.resources.stone)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('copperOre').innerHTML = `Copper Ore: ${formatNumber(gameState.resources.copper)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('coal').innerHTML = `Coal: ${formatNumber(gameState.resources.coal)} (+ ${formatNumber(gameState.efficiency)})`;
-    document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
-    document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
-        `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
-    
-}
 
 // Upgrade handler
 window.upgradeClick = () => {

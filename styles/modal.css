@@ -58,7 +58,6 @@ body {
     position: sticky;
     bottom: 0;
     width: 100%;
-    background-color: #ffffff; /* Example background color */
     padding: 10px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -66,8 +65,6 @@ body {
 .footer-button {
     flex: 1; /* Make buttons take equal space */
     text-align: center;
-    background-color: #fffcfc; /* Example button color */
-    color: rgb(0, 0, 0);
     border: 1px solid #999;
     padding: 10px;
     cursor: pointer;

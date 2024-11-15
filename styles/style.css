@@ -3,8 +3,6 @@
 .gameTitle{
     display: flex;
     justify-content: center;
-    /* border: 2px solid black; */
-
 }
 
 .fast-rotate {
@@ -25,7 +23,6 @@
     width: 60px;
     height: 60px;
     animation: rotate 7s linear infinite;
-    /* border: 1px solid green; */
     margin-top: 24px;
     transition: animation-duration 0.5s ease-in-out; /* Smooth transition */
 
@@ -37,14 +34,17 @@
 
 .logoName{
     font-size: 35px;
-    /* border: 1px solid red; */
+}
+#stats{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
 }
 
 #game{
     /* display: flex; */
     justify-content:space-evenly; 
     align-items: center;
-    /* border: 2px solid black; */
     border-top: none;
     padding: 10px;
     flex: 1;
@@ -52,9 +52,6 @@
 #mines{
     display: flex;
     justify-content:space-evenly;
-    /* text-align: center; */
-    /* padding-top: 10px; */
-    
 }
 
 #autoShop{
@@ -87,3 +84,22 @@ button {
 
 }
 
+.baseinfo{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    /* gap: 10px; */
+    width: 300px;
+    margin: 0 auto;
+}
+
+.baseinfo button {
+    padding: 0; /* Remove default padding */
+    width: 100%; /* Full width of grid cell */
+    aspect-ratio: 1 / 1; /* Make buttons square */
+    font-size: 16px;
+    /* background-color: #4CAF50; Green background */
+    color: white;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}

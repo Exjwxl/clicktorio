@@ -11,7 +11,9 @@
   --background-color: #4F4557;
   --border-color: rgb(0, 0, 0);
   --button-background-color: #6D5D6E;
-  --color: #F4EEE0;
+  --color: #fffefc;
+  --logo-color: black;
+
 }
 
 /* Define a light theme */
@@ -19,6 +21,9 @@
   --background-color: rgba(240, 240, 240, 0.8);
   --border-color: black;
   --body-background-color: rgb(255, 255, 255);
+  --color: black;
+  --logo-color: #fffefc;
+
 }
 
 /* Use the variables in your styles */
@@ -39,4 +44,15 @@ body {
 button {
   background-color: var(--button-background-color);
   color: var(--button-color);
+}
+
+footer {
+  background-color: var(--background-color);
+}
+.logoName{
+  color: var(--logo-color)
+}
+
+.options-style h2 {
+  color: var(--logo-color);
 }

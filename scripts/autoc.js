@@ -1,5 +1,5 @@
 import { gameState } from './state.js';
-import { updateDisplayElements } from './main.js';
+import { updateDisplayElements } from './display.js';
 
 let autoClickerInterval = null;
 
