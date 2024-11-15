@@ -1,3 +1,6 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
 
 
 .gameTitle{
@@ -39,6 +42,8 @@
     display: flex;
     justify-content: space-between;
     padding: 5px 20px;
+    border: 2px solid black;
+    border-bottom: 0;
 }
 
 #game{
@@ -97,8 +102,6 @@ button {
     width: 100%; /* Full width of grid cell */
     aspect-ratio: 1 / 1; /* Make buttons square */
     font-size: 16px;
-    /* background-color: #4CAF50; Green background */
-    color: white;
     border-radius: 0px;
     cursor: pointer;
     transition: background-color 0.3s;
