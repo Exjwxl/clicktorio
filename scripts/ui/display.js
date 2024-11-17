@@ -15,14 +15,14 @@ export function updateDisplayElements() {
     };
 
     // Update each element safely
+    updateElement('efficiency', gameState.systemValues.efficiency, 'Efficiency: ');
     updateElement('ironOre', gameState.resources.iron, 'Iron Ore: ');
     updateElement('stone', gameState.resources.stone, 'Stone: ');
     updateElement('copperOre', gameState.resources.copper, 'Copper Ore: ');
     updateElement('coal', gameState.resources.coal, 'Coal: ');
-    updateElement('ironIngots', gameState.craftedItems.ironIngot);
+    updateElement('ironPlates', gameState.craftedItems.ironIngot);
     updateElement('copperPlate', gameState.craftedItems.copperPlate);
     updateElement('redScience', gameState.craftedItems.redScience);
-    updateElement('efficiency', gameState.systemValues.efficiency, 'Efficiency: ');
     
 }
 

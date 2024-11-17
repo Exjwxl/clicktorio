@@ -11,7 +11,7 @@ export const INITIAL_STATE = {
         
     },
     craftedItems:{
-        ironIngot:0,
+        ironPlate:0,
         copperPlate:0,
         redScience:0,
     },

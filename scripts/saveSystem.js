@@ -27,7 +27,6 @@ export function loadGame() {
         const savedData = localStorage.getItem(SAVE_KEY);
         if (savedData) {
             const gameData = JSON.parse(savedData);
-            console.log('Loading Saved data:', gameData);
             
             // Validate and load saved data
             if (typeof gameData === 'object' && gameData !== null) {
