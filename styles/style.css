@@ -46,24 +46,17 @@
     border-bottom: 0;
 }
 
+#stats p {
+    margin: 2px;
+}
+
 #game{
     /* display: flex; */
-    justify-content:space-evenly; 
+    /* justify-content:space-evenly;  */
     align-items: center;
     border-top: none;
     padding: 10px;
     flex: 1;
-}
-#mines{
-    display: flex;
-    justify-content:space-evenly;
-}
-
-#autoShop{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 10px;
 }
 
 .options{
@@ -72,9 +65,7 @@
     cursor: pointer;
 
 }
-button:focus{
-    outline: none;
-}
+
 
 button {
     appearance: none;
@@ -100,9 +91,41 @@ button {
 .baseinfo button {
     padding: 0; /* Remove default padding */
     width: 100%; /* Full width of grid cell */
-    aspect-ratio: 1 / 1; /* Make buttons square */
+    aspect-ratio: 16 / 9; /* Make buttons square */
     font-size: 16px;
     border-radius: 0px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.crafting-page button{
+    display: flex;
+}
+
+
+/* ------------------------------------------------- */
+
+.smelting-page {
+    padding: 20px;
+}
+
+.smelter-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 20px;
+    background: var(--background-color);
+    border-radius: 10px;
+}
+
+.fuel-section, .smelting-section {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.smelting-section button {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
 }

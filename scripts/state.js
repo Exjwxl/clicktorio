@@ -1,5 +1,5 @@
 import { INITIAL_STATE, MAX_CLICKS } from './config.js';
-import { updateDisplayElements } from './display.js';
+import { updateDisplayElements } from './ui/display.js';
 
 class GameState {
     constructor() {
@@ -9,6 +9,11 @@ class GameState {
     updateResource(resourceName, amount) {
         this.resources[resourceName] = this.resources[resourceName] + amount;
         updateDisplayElements()
+    }
+
+    updateCraftedItems(craftedItems, amount) {
+        this.craftedItems[craftedItems] = this.craftedItems[craftedItems] + amount;
+        updateDisplayElements();
     }
 
     reset() {

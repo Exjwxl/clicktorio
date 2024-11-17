@@ -8,10 +8,15 @@ export const INITIAL_STATE = {
         stone: 0,
         copper:0,
         coal:0,
+        
     },
-    efficiency: 1,
-    upgradeCost: 10,
-    autoClickerActive: false,
-    autoClickerSpeed: 1000,
-    autoClickerUpgradeCost: 100
+    craftedItems:{
+        ironIngot:0,
+        copperPlate:0,
+        redScience:0,
+    },
+    systemValues:{
+        efficiency: 10,
+
+    }
 };
