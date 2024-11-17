@@ -20,3 +20,27 @@ export const INITIAL_STATE = {
 
     }
 };
+
+
+export const SMELTING_RECIPES = {
+    ironPlate: {
+        input: {
+            iron: 1,
+            coal: 1
+        },
+        output: {
+            ironPlate: 1
+        },
+        smeltTime: 3000, // 3 seconds per smelt
+    },
+    copperPlate: {
+        input: {
+            copper: 1,
+            coal: 1
+        },
+        output: {
+            copperPlate: 1
+        },
+        smeltTime: 3000,
+    }
+};

@@ -20,7 +20,7 @@ export function updateDisplayElements() {
     updateElement('stone', gameState.resources.stone, 'Stone: ');
     updateElement('copperOre', gameState.resources.copper, 'Copper Ore: ');
     updateElement('coal', gameState.resources.coal, 'Coal: ');
-    updateElement('ironPlates', gameState.craftedItems.ironIngot);
+    updateElement('ironPlates', gameState.craftedItems.ironPlate);
     updateElement('copperPlate', gameState.craftedItems.copperPlate);
     updateElement('redScience', gameState.craftedItems.redScience);
     

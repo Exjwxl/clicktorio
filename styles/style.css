@@ -105,27 +105,37 @@ button {
 
 /* ------------------------------------------------- */
 
-.smelting-page {
-    padding: 20px;
-}
-
-.smelter-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 20px;
-    padding: 20px;
-    background: var(--background-color);
-    border-radius: 10px;
-}
-
-.fuel-section, .smelting-section {
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-}
-
-.smelting-section button {
-    display: block;
+.smelting-operation {
     margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.progress-bar {
     width: 100%;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 5px 0;
+}
+
+.progress {
+    height: 100%;
+    background: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.cancel-smelt {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-smelt:hover {
+    background: #cc0000;
 }
