@@ -12,9 +12,16 @@ class GameState {
     }
 
     updateCraftedItems(craftedItems, amount) {
-        this.craftedItems[craftedItems] = this.craftedItems[craftedItems] + amount;
+        this.craftedItems[craftedItems] = (this.craftedItems[craftedItems] || 0) + amount;
         updateDisplayElements();
     }
+
+    updateSmeltedItems(smeltedItems, amount) {
+        this.smeltedItems[smeltedItems] = (this.smeltedItems[smeltedItems] || 0) + amount;
+        console.log(`Updated ${smeltedItems}:`, this.smeltedItems[smeltedItems]); // Log the updated value
+        updateDisplayElements();
+    }
+
 
     reset() {
         Object.assign(this, INITIAL_STATE);

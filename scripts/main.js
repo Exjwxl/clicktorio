@@ -11,7 +11,7 @@ import { SmeltingSystem } from './systems/smelting.js';
 import { resetGame, manualSave } from './ui/settings.js';
 
 const craftingSystem = new CraftingSystem();
-const smeltingSystem = new SmeltingSystem();
+export const smeltingSystem = new SmeltingSystem();
 
 window.setTheme = setTheme; // Loading theme
 window.onload = loreModal; // Inital Modal
@@ -53,8 +53,8 @@ window.addEventListener('beforeunload', () => {
 
 window.craftItem = (recipeId) => {
     if (craftingSystem.craft(recipeId)) {
-        updateDisplayElements();
         console.log(gameState.craftedItems);
+        updateDisplayElements();
         
         
         
@@ -65,11 +65,11 @@ window.craftItem = (recipeId) => {
 
 
 // smelting-----------------------------------------------------
+window.smeltingSystem = smeltingSystem
 
 window.startSmelting = (recipeId) => {
     if (smeltingSystem.startSmelting(recipeId)) {
         updateDisplayElements();
-        console.log(gameState.craftedItems.ironPlate);
 
     } else {
         console.log('Failed to start smelting');
@@ -77,8 +77,8 @@ window.startSmelting = (recipeId) => {
     }
 };
 
-// Add to your window object
-window.cancelSmelt = (smeltingId) => {
-    smeltingSystem.cancelSmelting(smeltingId);
-};
-
+window.debugg = () =>{
+    console.log(gameState.smeltedItems);
+    console.log(gameState.craftedItems);
+    console.log(gameState.resources);
+}

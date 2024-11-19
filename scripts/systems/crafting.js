@@ -1,39 +1,53 @@
 import { gameState } from '../state.js';
 import { recipes } from '../items.js';
+import { updateDisplayElements } from '../ui/display.js';
 
 export class CraftingSystem {
     craft(recipeId) {   
         const recipe = recipes[recipeId];
-        if (!recipe) return false;
+        if (!recipe) {
+            console.log('Invalid recipe ID:', recipeId);
+            return false;
+        }
 
         // Check if player has enough resources and crafted items
         const hasResources = recipe.inputs.every(input => {
-            // Check in resources first
-            if (gameState.resources[input.item] !== undefined) {
-                return gameState.resources[input.item] >= input.amount;
-            }
-            // If not in resources, check in craftedItems
-            return gameState.craftedItems[input.item] >= input.amount;
+            const availableAmount = gameState.resources[input.item] || 
+                                    gameState.craftedItems[input.item] || 
+                                    gameState.smeltedItems[input.item] || 0;
+            const requiredAmount = input.amount;
+
+            console.log(`Checking ${input.item}: Required = ${requiredAmount}, Available = ${availableAmount}`);
+            return availableAmount >= requiredAmount;
         });
 
+        console.log('Crafting recipe:', recipe);
+        console.log('Has resources:', hasResources);
+
         if (hasResources) {
-            // Remove input resources/items
+            // Remove input resources/items using update functions
             recipe.inputs.forEach(input => {
-                // Remove from resources if it exists there
-                if (gameState.resources[input.item] !== undefined) {
-                    gameState.resources[input.item] -= input.amount;
+                const availableAmount = gameState.resources[input.item] || 
+                                        gameState.craftedItems[input.item] || 
+                                        gameState.smeltedItems[input.item] || 0;
+
+                if (availableAmount >= input.amount) { // Check if enough resources are available
+                    if (gameState.smeltedItems[input.item] !== undefined) {
+                        gameState.updateSmeltedItems(input.item, -input.amount);
+                    } else if (gameState.craftedItems[input.item] !== undefined) {
+                        gameState.updateCraftedItems(input.item, -input.amount);
+                    } else if (gameState.resources[input.item] !== undefined) {
+                        gameState.updateResource(input.item, -input.amount);
+                    }
                 } else {
-                    // Otherwise remove from craftedItems
-                    gameState.craftedItems[input.item] -= input.amount;
+                    console.log(`Not enough ${input.item} to craft. Required: ${input.amount}, Available: ${availableAmount}`);
                 }
             });
 
-            // Add output to craftedItems
-            if (!gameState.craftedItems[recipe.output.item]) {
-                gameState.craftedItems[recipe.output.item] = 0;
-            }
-            gameState.craftedItems[recipe.output.item] += recipe.output.amount;
-
+            // Add output to craftedItems using the update function
+            gameState.updateCraftedItems(recipe.output.item, recipe.output.amount);
+            console.log('Updated crafted items:', gameState.craftedItems);
+            updateDisplayElements();
             return true;
         }
         return false;

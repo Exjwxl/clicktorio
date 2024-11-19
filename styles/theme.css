@@ -12,7 +12,7 @@
   --border-color: rgb(0, 0, 0);
   --button-background-color: #6D5D6E;
   --color: #fffefc;
-  --logo-color: black;
+  --logo-color: rgb(255, 255, 255);
 
 }
 
@@ -22,7 +22,7 @@
   --border-color: black;
   --body-background-color: rgb(255, 255, 255);
   --color: black;
-  --logo-color: #fffefc;
+  --logo-color: #000000;
 
 }
 
@@ -55,4 +55,10 @@ footer {
 
 .options-style h2 {
   color: var(--logo-color);
+}
+.stats{
+  background-color: var(--background-color);
+}
+.modal-content{
+  background-color: var(--body-background-color);
 }

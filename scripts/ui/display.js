@@ -3,6 +3,7 @@ import { gameState } from "../state.js";
 import {getMechanic1} from '../../pages/mechanic1.js';
 import {getMechanic2} from '../../pages/mechanic2.js';
 import {getMechanic3} from '../../pages/mechanic3.js';
+import { smeltingSystem } from "../main.js";
 
 export function updateDisplayElements() {
     // Helper function to safely update element with optional formatting
@@ -20,10 +21,11 @@ export function updateDisplayElements() {
     updateElement('stone', gameState.resources.stone, 'Stone: ');
     updateElement('copperOre', gameState.resources.copper, 'Copper Ore: ');
     updateElement('coal', gameState.resources.coal, 'Coal: ');
-    updateElement('ironPlates', gameState.craftedItems.ironPlate);
-    updateElement('copperPlate', gameState.craftedItems.copperPlate);
+    updateElement('ironPlates', gameState.smeltedItems.ironPlate);
+    updateElement('copperPlate', gameState.smeltedItems.copperPlate);
     updateElement('redScience', gameState.craftedItems.redScience);
-    
+    updateElement('greenScience', gameState.craftedItems.greenScience);
+    updateElement('smelterFuel',smeltingSystem.fuelAmount);
 }
 
 

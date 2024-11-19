@@ -6,6 +6,7 @@ export function saveGame() {
         const gameData = {
             resources: { ...gameState.resources },  // Create a clean copy
             craftedItems: { ...gameState.craftedItems },
+            smeltedItems: { ...gameState.smeltedItems },
             systemValues: { ...gameState.systemValues },
         };
 
@@ -39,6 +40,9 @@ export function loadGame() {
                 }
                 if (gameData.craftedItems) {
                     gameState.craftedItems = gameData.craftedItems;
+                }
+                if (gameData.smeltedItems) {
+                    gameState.smeltedItems = gameData.smeltedItems;
                 }
                 if (gameData.systemValues) {
                     gameState.systemValues = gameData.systemValues;

@@ -37,17 +37,15 @@ export function getMechanic1() {
                 
                 <div class="crafting-page">
                    <h2>Crafting</h2>
-                   <button onclick="window.craftItem('ironIngot')">
-                       Craft Iron Ingot (Costs 2 Iron Ore)
-                   </button>
-
-                   <button onclick="window.craftItem('copperPlate')">
-                       Craft Copper Plate (Costs 2 Copper Ore)
-                   </button>
 
                 <button onclick="window.craftItem('redScience')">
-                    Craft Red Science (Costs 2 Copper Ore)
+                    Craft Red Science (1 copper and Iron Plate)
                 </button>
+                <button onclick="window.craftItem('greenScience')">
+                    Craft Green Science (5 copper and Iron Plate)
+                </button>
+               
+                
                 
                </div>
     </div>
