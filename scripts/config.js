@@ -16,10 +16,16 @@ export const INITIAL_STATE = {
     },
     systemValues:{
         efficiency: 10,
+        smelterFuel:0,
     },
     smeltedItems:{
         ironPlate:0,
         copperPlate:0,
+    },
+    smeltingBuffer: {
+        iron: 0,
+        copper: 0,
+        stone: 0,
     },
 };
 

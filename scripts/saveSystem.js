@@ -1,5 +1,6 @@
 import { gameState } from './state.js';
 import { SAVE_KEY, INITIAL_STATE } from './config.js';
+import { smeltingSystem } from './main.js'; // Ensure you import the smelting system
 
 export function saveGame() {
     try {
@@ -8,6 +9,7 @@ export function saveGame() {
             craftedItems: { ...gameState.craftedItems },
             smeltedItems: { ...gameState.smeltedItems },
             systemValues: { ...gameState.systemValues },
+            smeltingBuffer: { ...smeltingSystem.buffer }, // Save the buffer
         };
 
         for (const key in gameData.resources) {
@@ -47,7 +49,16 @@ export function loadGame() {
                 if (gameData.systemValues) {
                     gameState.systemValues = gameData.systemValues;
                 }
+                if (gameData.smeltingBuffer) {
+                    smeltingSystem.buffer = gameData.smeltingBuffer; // Load the buffer
+                }
 
+                // Initialize smelting queues based on the loaded data
+                for (const resource of Object.keys(INITIAL_STATE.smeltingBuffer)) {
+                    smeltingSystem.smeltingQueues[resource] = smeltingSystem.smeltingQueues[resource] || [];
+                }
+
+                smeltingSystem.updateActiveSmeltingDisplay(); // Update display with loaded data
                 console.log('Game loaded successfully');
                 return true;
             }
@@ -70,4 +81,3 @@ export function clearSave() {
         return false;
     }
 }
-

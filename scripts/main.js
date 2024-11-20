@@ -67,10 +67,21 @@ window.craftItem = (recipeId) => {
 // smelting-----------------------------------------------------
 window.smeltingSystem = smeltingSystem
 
+window.addOre = (oreType, amount) => {
+    smeltingSystem.addOre(oreType, amount);
+    updateDisplayElements(); // Update UI after adding ore
+};
+
+// Function to add fuel
+window.addFuel = (amount) => {
+    smeltingSystem.addFuel(amount);
+    updateDisplayElements(); // Update UI after adding fuel
+};
+
+// Function to start smelting directly (if needed)
 window.startSmelting = (recipeId) => {
     if (smeltingSystem.startSmelting(recipeId)) {
         updateDisplayElements();
-
     } else {
         console.log('Failed to start smelting');
         alert('Not enough resources or fuel!');
@@ -81,4 +92,7 @@ window.debugg = () =>{
     console.log(gameState.smeltedItems);
     console.log(gameState.craftedItems);
     console.log(gameState.resources);
+    console.log(gameState.systemValues);
+    console.log(gameState.smeltingBuffer);
+    
 }

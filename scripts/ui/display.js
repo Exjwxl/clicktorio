@@ -17,6 +17,7 @@ export function updateDisplayElements() {
 
     // Update each element safely
     updateElement('efficiency', gameState.systemValues.efficiency, 'Efficiency: ');
+    updateElement('smelterFuel', gameState.systemValues.smelterFuel, 'Fuel: ');
     updateElement('ironOre', gameState.resources.iron, 'Iron Ore: ');
     updateElement('stone', gameState.resources.stone, 'Stone: ');
     updateElement('copperOre', gameState.resources.copper, 'Copper Ore: ');
@@ -25,7 +26,6 @@ export function updateDisplayElements() {
     updateElement('copperPlate', gameState.smeltedItems.copperPlate);
     updateElement('redScience', gameState.craftedItems.redScience);
     updateElement('greenScience', gameState.craftedItems.greenScience);
-    updateElement('smelterFuel',smeltingSystem.fuelAmount);
 }
 
 
