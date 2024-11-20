@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clicktorio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/images/logo/favicon.png" type="image/x-icon">
     <link rel="stylesheet"  href="styles/style.css">
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/modal.css">
     <script type="module" src="scripts/main.js"></script>
-    <script type="module" src="scripts/formatters.js"></script>
+    <script type="module" src="scripts/ui/formatters.js"></script>
 
 </head> 
 <body>
@@ -17,57 +18,57 @@
     <div id="loreModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
+            <div class="gameTitle">
+                <p class="logoName">CLICKT</p>
+                <img src="assets/images/logo/clicktorio_logo.png" alt="logo">
+                <p class="logoName">RIO</p>
+            </div>
             <h2>Welcome to Clicktorio!</h2>
             <h3>Your empire starts with a single click</h3>
             <p>In Clicktorio, every click builds your path from a humble beginning to a powerful production empire! Harvest resources, upgrade your machinery, and optimize production lines as you create the most efficient operation possible. Simplicity meets strategy—let’s see how far your clicks can take you!</p>
         </div>
     </div>
-
-    <div class="gameTitle">
-        <p class="logoName">CLICKT</p>
-        <img src="assets/images/logo/clicktorio_logo.png" alt="logo">
-        <p class="logoName">RIO</p>
-    </div>
-    <section id="game">
-        <div class="titleCard">
-            <p>Click to Gain Clicks</p>
-            <p>Reach 1T Clicks!</p>
+    <section class="stats">
+        <div id="stats">
+            <div id="rawOreStats">
+                <p id="ironOre"></p>
+                <p id="stone"></p>
+                <p id="copperOre"></p>
+                <p id="coal"></p>
+            </div>
+            <div id="craftedItemStats">
+                <p>Iron Plates: <span id="ironPlates"></span></p>
+                <p>Copper Plates: <span id="copperPlate"></span></p>
+                <p>Red Science: <span id="redScience"></span></p>
+                <p>Green Science: <span id="greenScience"></span></p>
+                
+            </div>
+            <div id="baseInfo">
+                <p id="efficiency"></p>
+                <button id="debug" onclick="debugg()">Debug</button>
+            </div>
         </div>
-        <section id="click">
-            <div class="baseinfo">
-                <button id="clicker" onclick="clicker()">
-                    CLICK
-                </button>
-                <h4 id="score">Clicks:0 </h4>
-            </div>
-            <div class="baseUpgrades">
-                <button id="upgrade" onclick="upgradeClick()">Upgrade Clicks</button>
-                <h4 id="upgradeCostDisplay">Upgrade Cost: 10<h4/>
-    
-            </div>
-        </section>
+    </section>
+    <section id="game">
+        
+    </section>
 
-        <section id="autoShop" 
-        style="display: flex;
-        border-top: 2px solid rgb(0, 0, 0);
-        padding:10px;
-        margin: 10px;
-        ">
-
-        <button id="autoClicker" onclick="toggleAutoClicker()">Start Auto Clicker:100</button>
-        <button onclick="upgradeAutoClicker()"> <span id="autoClickerUpgradeCostDisplay"></span></button>
-        </section>
 </section>
 <footer class="game-footer">
-    <button class="footer-button">Mechanic 1</button>
-    <button class="footer-button">Mechanic 2</button>
-    <button class="footer-button">Mechanic 3</button>
+    <button class="footer-button" id="loadMechanic1">Mechanic 1</button>
+    <button class="footer-button" id="loadMechanic2">Mechanic 2</button>
+    <button class="footer-button" id="loadMechanic3">Mechanic 3</button>
     <button class="footer-button" id="optionsButton">Settings</button>
 </footer>
 
 <div id="settingsModal" class="settingsModal">
     <div class="options-content">
         <span class="close-options">&times;</span>
+        <div class="gameTitle">
+            <p class="logoName">CLICKT</p>
+            <img src="assets/images/logo/clicktorio_logo.png" alt="logo">
+            <p class="logoName">RIO</p>
+        </div>
             <div class="options-style">
                 <h2>Options</h2>
                 <button onclick="resetGame()">Reset Game</button>

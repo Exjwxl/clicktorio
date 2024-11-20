@@ -1,72 +1,36 @@
 import { gameState } from './state.js';
-import { handleUpgrade } from './upgrades.js';
-import { startAutoClicker, stopAutoClicker, handleAutoClickerUpgrade } from './autoc.js';
-import { saveGame, loadGame, showSaveIndicator} from './saveSystem.js';
+import {logoSpin} from './ui/animations.js';
+import { saveGame, loadGame, } from './saveSystem.js';
 import { AUTOSAVE_INTERVAL } from './config.js';
-import { formatNumber, setTheme } from './formatters.js';
-import { loreModal, settingsModal } from './modals.js';
+import { updateDisplayElements, loadScreens, loadSelectedMechanic } from './ui/display.js';
+import { setTheme  } from './ui/formatters.js';
+import { loreModal, settingsModal } from './ui/modals.js';
+import { mines } from './systems/mines.js';
+import { CraftingSystem } from './systems/crafting.js';
+import { SmeltingSystem } from './systems/smelting.js';
+import { resetGame, manualSave } from './ui/settings.js';
+
+const craftingSystem = new CraftingSystem();
+export const smeltingSystem = new SmeltingSystem();
 
 window.setTheme = setTheme; // Loading theme
 window.onload = loreModal; // Inital Modal
 
-// Click handler
-window.clicker = () => {
-    gameState.addClicks(gameState.upgrade);
-    updateDisplayElements();
-};
+loadScreens();
+resetGame();
+manualSave();
+mines()
 
-// Upgrade handler
-window.upgradeClick = () => {
-    if (handleUpgrade()) {
-        updateDisplayElements();
-    }
-};
+settingsModal();
+logoSpin();
 
 
-// Auto clicker handlers
-window.toggleAutoClicker = () => {
-    if (gameState.autoClickerActive) {
-        stopAutoClicker();
-        return;
-    }
-
-    if (gameState.clicks >= 100) {
-        gameState.clicks -= 100;
-        startAutoClicker();
-        updateDisplayElements();
-    } else {
-        alert('You need 100 clicks to start Auto Clicker!');
-    }
-};
-
-window.upgradeAutoClicker = () => {
-    if (handleAutoClickerUpgrade()) {
-        updateDisplayElements();
-    }
-};
-//manual save
-window.manualSave = () => {
-  saveGame();
-  showSaveIndicator();
-};
-
-// Reset game handler
-window.resetGame = () => {
-  if (confirm('Are you sure you want to reset the game? This cannot be undone!')) {
-      localStorage.removeItem('clickerGameSave');
-      localStorage.removeItem('loreModalShown');
-      gameState.reset();
-      stopAutoClicker();
-      updateDisplayElements();
-      location.reload();
-    
-  }
-};
 
 // Initialize game
-document.addEventListener('DOMContentLoaded', () => {
-  loadGame();
-  updateDisplayElements();
+document.addEventListener('DOMContentLoaded', () => {// Initial screen
+    loadSelectedMechanic();
+    loadGame();
+    updateDisplayElements();
   
   // Set up autosave
   setInterval(() => {
@@ -77,40 +41,58 @@ document.addEventListener('DOMContentLoaded', () => {
 // Save before leaving
 window.addEventListener('beforeunload', () => {
     saveGame();
+
 });
 
-// Display update - now includes auto clicker cost
-export function updateDisplayElements() {
-    document.getElementById('score').innerHTML = `Clicks: ${formatNumber(gameState.clicks)} (+ ${formatNumber(gameState.upgrade)})`;
-    document.getElementById('upgradeCostDisplay').innerHTML = `Upgrade Cost: ${formatNumber(gameState.upgradeCost)}`;
-    document.getElementById('autoClickerUpgradeCostDisplay').innerHTML = 
-        `Auto Clicker Upgrade Cost: ${formatNumber(gameState.autoClickerUpgradeCost)}`;
+
+
+
+
+// crafting--------------------------------------------------------
+
+
+window.craftItem = (recipeId) => {
+    if (craftingSystem.craft(recipeId)) {
+        console.log(gameState.craftedItems);
+        updateDisplayElements();
+        
+        
+        
+    } else {
+        alert('Not enough resources!');
+    }
+};
+
+
+// smelting-----------------------------------------------------
+window.smeltingSystem = smeltingSystem
+
+window.addOre = (oreType, amount) => {
+    smeltingSystem.addOre(oreType, amount);
+    updateDisplayElements(); // Update UI after adding ore
+};
+
+// Function to add fuel
+window.addFuel = (amount) => {
+    smeltingSystem.addFuel(amount);
+    updateDisplayElements(); // Update UI after adding fuel
+};
+
+// Function to start smelting directly (if needed)
+window.startSmelting = (recipeId) => {
+    if (smeltingSystem.startSmelting(recipeId)) {
+        updateDisplayElements();
+    } else {
+        console.log('Failed to start smelting');
+        alert('Not enough resources or fuel!');
+    }
+};
+
+window.debugg = () =>{
+    console.log(gameState.smeltedItems);
+    console.log(gameState.craftedItems);
+    console.log(gameState.resources);
+    console.log(gameState.systemValues);
+    console.log(gameState.smeltingBuffer);
     
 }
-
-settingsModal();
-
-document.addEventListener('DOMContentLoaded', () => {
-    const logoImage = document.querySelector('.gameTitle img');
-
-    logoImage.addEventListener('click', () => {
-        // Start with a fast spin
-        let duration = 2;
-        logoImage.style.animationDuration = `${duration}s`;
-
-        // Function to gradually slow down the animation
-        const slowDown = () => {
-            duration += 0.05; // Gradually increase duration to slow down
-            logoImage.style.animationDuration = `${duration}s`;
-
-            // Continue slowing down until reaching the normal speed
-            if (duration < 7) {
-                requestAnimationFrame(slowDown);
-            }
-        };
-
-        // Start the slowdown process
-        requestAnimationFrame(slowDown);
-    });
-});
-

@@ -1,10 +1,11 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
 
 
 .gameTitle{
     display: flex;
     justify-content: center;
-    border: 2px solid black;
-
 }
 
 .fast-rotate {
@@ -25,8 +26,7 @@
     width: 60px;
     height: 60px;
     animation: rotate 7s linear infinite;
-    /* border: 1px solid green; */
-    margin-top: 24px;
+    margin-top: 30px;
     transition: animation-duration 0.5s ease-in-out; /* Smooth transition */
 
 }
@@ -37,31 +37,30 @@
 
 .logoName{
     font-size: 35px;
-    /* border: 1px solid red; */
+}
+.stats{
+    position: sticky;
+    top: 0;
+}
+#stats{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    border: 2px solid black;
+    border-bottom: 0;
+}
+
+#stats p {
+    margin: 2px;
 }
 
 #game{
     /* display: flex; */
-    justify-content:space-evenly; 
+    /* justify-content:space-evenly;  */
     align-items: center;
-    /* border: 2px solid black; */
     border-top: none;
     padding: 10px;
     flex: 1;
-}
-#click{
-    display: flex;
-    justify-content:space-evenly;
-    text-align: center;
-    padding-top: 10px;
-    
-}
-
-#autoShop{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 10px;
 }
 
 .options{
@@ -70,9 +69,7 @@
     cursor: pointer;
 
 }
-button:focus{
-    outline: none;
-}
+
 
 button {
     appearance: none;
@@ -87,3 +84,67 @@ button {
 
 }
 
+.baseinfo{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    /* gap: 10px; */
+    width: 300px;
+    margin: 0 auto;
+}
+
+.baseinfo button {
+    padding: 10px; /* Remove default padding */
+    width: 100%; /* Full width of grid cell */
+    aspect-ratio: 16 / 9; /* Make buttons square */
+    font-size: 16px;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+}
+.baseinfo img{
+    width: 35%;
+    height: auto;
+}
+.baseinfo p{
+    margin: 0;
+}
+
+.crafting-page button{
+    display: flex;
+    width: 45%;
+}
+.crafting-page p{
+    margin: 0;
+}
+.crafting-page img{
+    width: 25%;
+    height: auto;
+}
+
+/* ------------------------------------------------- */
+
+.active-smelting {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: black;
+}
+
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 20px;
+    width: 0%; /* Start with 0% width */
+    background-color: #76c7c0; /* Color of the progress */
+    border-radius: 5px;
+    transition: width 0.1s; /* Smooth transition */
+}

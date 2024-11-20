@@ -8,7 +8,6 @@ export function formatNumber(num) {
     return num.toLocaleString();
   }
 
-  // theme.js
 
 export function setTheme(theme) {
   const currentTheme = document.documentElement.getAttribute('data-theme');

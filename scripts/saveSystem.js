@@ -1,17 +1,20 @@
 import { gameState } from './state.js';
-import { startAutoClicker } from './autoc.js';
-import { SAVE_KEY } from './config.js';
+import { SAVE_KEY, INITIAL_STATE } from './config.js';
+import { smeltingSystem } from './main.js'; // Ensure you import the smelting system
 
 export function saveGame() {
     try {
         const gameData = {
-            clicks: gameState.clicks,
-            upgrade: gameState.upgrade,
-            upgradeCost: gameState.upgradeCost,
-            autoClickerActive: gameState.autoClickerActive,
-            autoClickerSpeed: gameState.autoClickerSpeed,
-            autoClickerUpgradeCost: gameState.autoClickerUpgradeCost
+            resources: { ...gameState.resources },  // Create a clean copy
+            craftedItems: { ...gameState.craftedItems },
+            smeltedItems: { ...gameState.smeltedItems },
+            systemValues: { ...gameState.systemValues },
+            smeltingBuffer: { ...smeltingSystem.buffer }, // Save the buffer
         };
+
+        for (const key in gameData.resources) {
+            gameData.resources[key] = Number(gameData.resources[key]) || 0;
+        }
         
         localStorage.setItem(SAVE_KEY, JSON.stringify(gameData));
         console.log('Game saved successfully');
@@ -30,15 +33,38 @@ export function loadGame() {
             
             // Validate and load saved data
             if (typeof gameData === 'object' && gameData !== null) {
-                Object.assign(gameState, gameData);
+                // Start with initial state
+                Object.assign(gameState, INITIAL_STATE);
                 
-                // Restart autoClicker if it was active
-                if (gameState.autoClickerActive) {
-                    startAutoClicker();
+                // Then apply the saved data
+                if (gameData.resources) {
+                    gameState.resources = gameData.resources;
                 }
+                if (gameData.craftedItems) {
+                    gameState.craftedItems = gameData.craftedItems;
+                }
+                if (gameData.smeltedItems) {
+                    gameState.smeltedItems = gameData.smeltedItems;
+                }
+                if (gameData.systemValues) {
+                    gameState.systemValues = gameData.systemValues;
+                }
+                if (gameData.smeltingBuffer) {
+                    smeltingSystem.buffer = gameData.smeltingBuffer; // Load the buffer
+                }
+
+                // Initialize smelting queues based on the loaded data
+                for (const resource of Object.keys(INITIAL_STATE.smeltingBuffer)) {
+                    smeltingSystem.smeltingQueues[resource] = smeltingSystem.smeltingQueues[resource] || [];
+                }
+
+                smeltingSystem.updateActiveSmeltingDisplay(); // Update display with loaded data
                 console.log('Game loaded successfully');
                 return true;
             }
+        } else {
+            console.log('No save found, using initial state:', INITIAL_STATE);
+            Object.assign(gameState, INITIAL_STATE);
         }
     } catch (error) {
         console.error('Failed to load game:', error);
@@ -54,18 +80,4 @@ export function clearSave() {
         console.error('Failed to clear save:', error);
         return false;
     }
-}
-
-export function showSaveIndicator() {
-    const indicator = document.createElement('div');
-    indicator.textContent = 'Game Saved!';
-    indicator.style.position = 'fixed';
-    indicator.style.bottom = '20px';
-    indicator.style.right = '20px';
-    indicator.style.padding = '10px';
-    indicator.style.backgroundColor = 'rgba(53, 31, 31, 0.5)';
-    indicator.style.borderRadius = '5px';
-    document.body.appendChild(indicator);
-    
-    setTimeout(() => indicator.remove(), 2000);
 }
