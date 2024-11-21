@@ -48,6 +48,8 @@
     padding: 5px 20px;
     border: 2px solid black;
     border-bottom: 0;
+    position: relative;
+    z-index: 2;
 }
 
 #stats p {
@@ -301,87 +303,3 @@ button {
     animation: progress-pulse 2s infinite;
 }
 
-/* Inventory Styles */
-.inventory-container {
-    position: fixed;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.inventory-container h3 {
-    margin: 0 0 10px 0;
-    color: #fff;
-    font-size: 1.1em;
-}
-
-.inventory-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    gap: 10px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.inventory-item {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    background: rgba(40, 44, 52, 0.9);
-    border-radius: 4px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.inventory-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.inventory-item img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    image-rendering: pixelated;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    padding: 4px;
-}
-
-.item-name {
-    font-size: 0.7em;
-    color: #fff;
-    text-align: center;
-    margin-top: 4px;
-    max-width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.item-quantity {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: 0.8em;
-    min-width: 20px;
-    text-align: center;
-}
-
-/* Placeholder image styling */
-.inventory-item img[src$="placeholder.png"] {
-    opacity: 0.5;
-    background: rgba(255, 255, 255, 0.1);
-}

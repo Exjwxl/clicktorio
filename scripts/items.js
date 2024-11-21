@@ -1,13 +1,13 @@
 import { assetManager } from './systems/assetManager.js';
 
 export const items = {
-    'iron-ore': {
+    'ironOre': {
         name: "Iron Ore",
         type: "resource",
         stackSize: 50,
         getImage: () => assetManager.getAssetPath('iron-ore', 'resource')
     },
-    'copper-ore': {
+    'copperOre': {
         name: "Copper Ore",
         type: "resource",
         stackSize: 50,
@@ -31,19 +31,19 @@ export const items = {
         stackSize: 50,
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
-    'iron-plate': {
+    'ironPlate': {
         name: "Iron Plate",
         type: "item",
         stackSize: 100,
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
-    'copper-plate': {
+    'copperPlate': {
         name: "Copper Plate",
         type: "item",
         stackSize: 100,
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
-    'stone-brick': {
+    'stoneBrick': {
         name: "Stone Brick",
         type: "item",
         stackSize: 100,
@@ -52,24 +52,24 @@ export const items = {
 };
 
 export const recipes = {
-    'red-science': {
+    'redScience': {
         name: "Red Science Pack",
         type: "craftedItem",
         craftTime: 5000,
         ingredients: {
-            'iron-plate': 1,
-            'copper-plate': 1
+            'ironPlate': 1,
+            'copperPlate': 1
         },
         getImage: () => './assets/images/placeholder.png', // Temporary placeholder
         description: 'Basic science pack used for early research'
     },
-    'green-science': {
+    'greenScience': {
         name: "Green Science Pack",
         type: "craftedItem",
         craftTime: 8000,
         ingredients: {
-            'iron-plate': 5,
-            'copper-plate': 5
+            'ironPlate': 5,
+            'copperPlate': 5
         },
         getImage: () => './assets/images/placeholder.png', // Temporary placeholder
         description: 'Advanced science pack for intermediate research'
@@ -77,34 +77,34 @@ export const recipes = {
 };
 
 export const SMELTING_RECIPES = {
-    'iron-plate': {
+    'ironPlate': {
         input: {
             'iron': 1,
         },
         output: {
-            'iron-plate': 1
+            'ironPlate': 1
         },
         smeltTime: 3000, // 3 seconds per smelt
         burnValue: 1,
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
-    'copper-plate': {
+    'copperPlate': {
         input: {
             'copper': 1,
         },
         output: {
-            'copper-plate': 1
+            'copperPlate': 1
         },
         smeltTime: 3000,
         burnValue: 1,
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
-    'stone-brick': {
+    'stoneBrick': {
         input: {
             'stone': 1,
         },
         output: {
-            'stone-brick': 1
+            'stoneBrick': 1
         },
         smeltTime: 3000,
         burnValue: 1,
