@@ -6,15 +6,14 @@ import { updateDisplayElements, loadScreens, loadSelectedMechanic } from './ui/d
 import { setTheme  } from './ui/formatters.js';
 import { loreModal, settingsModal } from './ui/modals.js';
 import { mines } from './systems/mines.js';
-import { CraftingSystem } from './systems/crafting.js';
-import { SmeltingSystem } from './systems/smelting.js';
+import { craftingSystem } from './systems/crafting.js';
+import { SmeltingSystem, smeltingSystem } from './systems/smelting.js';
 import { resetGame, manualSave } from './ui/settings.js';
+import { assetManager } from './systems/assetManager.js';
 
-const craftingSystem = new CraftingSystem();
-export const smeltingSystem = new SmeltingSystem();
-
+// Initialize systems
 window.setTheme = setTheme; // Loading theme
-window.onload = loreModal; // Inital Modal
+window.onload = loreModal; // Initial Modal
 
 loadScreens();
 resetGame();
@@ -24,75 +23,65 @@ mines()
 settingsModal();
 logoSpin();
 
-
-
 // Initialize game
-document.addEventListener('DOMContentLoaded', () => {// Initial screen
+document.addEventListener('DOMContentLoaded', () => {
     loadSelectedMechanic();
     loadGame();
     updateDisplayElements();
   
-  // Set up autosave
-  setInterval(() => {
-      saveGame();
-  }, AUTOSAVE_INTERVAL);
+    // Set up autosave
+    setInterval(() => {
+        saveGame();
+    }, AUTOSAVE_INTERVAL);
 });
 
 // Save before leaving
 window.addEventListener('beforeunload', () => {
     saveGame();
-
 });
 
-
-
-
+// Initialize asset manager
+window.addEventListener('load', async () => {
+    try {
+        await assetManager.preloadAssets();
+        console.log('Assets loaded successfully');
+    } catch (error) {
+        console.error('Error loading assets:', error);
+    }
+});
 
 // crafting--------------------------------------------------------
-
-
-window.craftItem = (recipeId) => {
-    if (craftingSystem.craft(recipeId)) {
-        console.log(gameState.craftedItems);
-        updateDisplayElements();
-        
-        
-        
-    } else {
-        alert('Not enough resources!');
-    }
-};
-
+// Expose crafting function to window
+window.craftItem = craftingSystem.addToQueue.bind(craftingSystem);
 
 // smelting-----------------------------------------------------
-window.smeltingSystem = smeltingSystem
-
-window.addOre = (oreType, amount) => {
+// Expose smelting functions to window
+window.addOre = function(oreType, amount) {
     smeltingSystem.addOre(oreType, amount);
-    updateDisplayElements(); // Update UI after adding ore
-};
+    updateDisplayElements();
+}
 
-// Function to add fuel
-window.addFuel = (amount) => {
+window.addFuel = function(amount) {
     smeltingSystem.addFuel(amount);
-    updateDisplayElements(); // Update UI after adding fuel
-};
+    updateDisplayElements();
+}
 
-// Function to start smelting directly (if needed)
-window.startSmelting = (recipeId) => {
-    if (smeltingSystem.startSmelting(recipeId)) {
+window.startSmelting = function(recipeId) {
+    if (smeltingSystem.canStartSmelting(recipeId)) {
+        smeltingSystem.startSmelting(recipeId);
         updateDisplayElements();
-    } else {
-        console.log('Failed to start smelting');
-        alert('Not enough resources or fuel!');
+        return true;
     }
-};
+    return false;
+}
 
-window.debugg = () =>{
-    console.log(gameState.smeltedItems);
-    console.log(gameState.craftedItems);
-    console.log(gameState.resources);
-    console.log(gameState.systemValues);
-    console.log(gameState.smeltingBuffer);
-    
+window.debugg = function() {
+    console.log('Game State:', gameState);
+    console.log('Smelting System:', smeltingSystem);
+    console.log('Crafting System:', craftingSystem);
+    return {
+        gameState,
+        smeltingSystem,
+        craftingSystem
+    };
 }

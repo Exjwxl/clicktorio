@@ -3,7 +3,6 @@ import { gameState } from "../state.js";
 import {getMechanic1} from '../../pages/mechanic1.js';
 import {getMechanic2} from '../../pages/mechanic2.js';
 import {getMechanic3} from '../../pages/mechanic3.js';
-import { smeltingSystem } from "../main.js";
 
 export function updateDisplayElements() {
     // Helper function to safely update element with optional formatting
@@ -28,15 +27,11 @@ export function updateDisplayElements() {
     updateElement('greenScience', gameState.craftedItems.greenScience);
 }
 
-
 export function loadScreens(){
     document.getElementById('loadMechanic1').addEventListener('click', () => switchContent(getMechanic1));
     document.getElementById('loadMechanic2').addEventListener('click', () => switchContent(getMechanic2));
     document.getElementById('loadMechanic3').addEventListener('click', () => switchContent(getMechanic3));
-
 }
-
-// ... (previous imports)
 
 // Add this function to load the correct mechanic
 export function loadSelectedMechanic() {
@@ -57,20 +52,13 @@ export function loadSelectedMechanic() {
 }
 
 // Modify your switchContent function
-function switchContent(getMechanicContent) {
-    document.getElementById('game').innerHTML = getMechanicContent();
-    // Store the current mechanic
-    if (getMechanicContent === getMechanic1) {
-        localStorage.setItem('selectedMechanic', 'mechanic1');
-    } else if (getMechanicContent === getMechanic2) {
-        localStorage.setItem('selectedMechanic', 'mechanic2');
-    } else if (getMechanicContent === getMechanic3) {
-        localStorage.setItem('selectedMechanic', 'mechanic3');
+export function switchContent(getMechanicContent) {
+    const gameSection = document.getElementById('game');
+    if (gameSection) {
+        gameSection.innerHTML = getMechanicContent();
     }
-    updateDisplayElements();
+    
+    // Save the selected mechanic
+    const mechanicName = getMechanicContent.name.replace('get', '').toLowerCase();
+    localStorage.setItem('selectedMechanic', mechanicName);
 }
-
-// Replace defaultScreen function call with loadSelectedMechanic
-
-
-// ... (rest of your code)

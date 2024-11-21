@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="max-age=86400">
     <title>Clicktorio</title>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/images/logo/clicktorio_logo.png" as="image" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/images/logo/favicon.png" type="image/x-icon">
     <link rel="stylesheet"  href="styles/style.css">
@@ -11,6 +14,7 @@
     <link rel="stylesheet" href="styles/modal.css">
     <script type="module" src="scripts/main.js"></script>
     <script type="module" src="scripts/ui/formatters.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
 </head> 
 <body>
@@ -55,8 +59,8 @@
 
 </section>
 <footer class="game-footer">
-    <button class="footer-button" id="loadMechanic1">Mechanic 1</button>
-    <button class="footer-button" id="loadMechanic2">Mechanic 2</button>
+    <button class="footer-button" id="loadMechanic1">Mine</button>
+    <button class="footer-button" id="loadMechanic2">Crafting</button>
     <button class="footer-button" id="loadMechanic3">Mechanic 3</button>
     <button class="footer-button" id="optionsButton">Settings</button>
 </footer>

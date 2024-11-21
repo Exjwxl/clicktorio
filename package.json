@@ -1,0 +1,23 @@
+{
+  "name": "clicktorio",
+  "version": "1.0.0",
+  "description": "A Factorio-inspired resource management game",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "optimize-images": "node scripts/tools/imageOptimizer.js",
+    "watch-assets": "node scripts/tools/watchAssets.js",
+    "start": "http-server . -p 3000"
+  },
+  "keywords": [
+    "game",
+    "factorio",
+    "resource-management"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^4.0.1",
+    "sharp": "^0.32.6"
+  }
+}

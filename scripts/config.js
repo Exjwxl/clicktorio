@@ -28,5 +28,3 @@ export const INITIAL_STATE = {
         stone: 0,
     },
 };
-
-
