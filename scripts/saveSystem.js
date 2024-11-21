@@ -9,6 +9,12 @@ export function saveGame() {
             craftedItems: { ...gameState.craftedItems },
             smeltedItems: { ...gameState.smeltedItems },
             systemValues: { ...gameState.systemValues },
+            research: {
+                completed: [...gameState.research.completed],
+                unlocked: [...gameState.research.unlocked],
+                inProgress: gameState.research.inProgress,
+                progress: gameState.research.progress
+            },
             smelting: {
                 buffer: { ...smeltingSystem.buffer },
                 queues: { ...smeltingSystem.smeltingQueues },
@@ -56,56 +62,45 @@ export function loadGame() {
                     gameState.systemValues = gameData.systemValues;
                 }
 
-                // Load smelting system state
-                if (gameData.smelting) {
-                    if (gameData.smelting.buffer) {
-                        smeltingSystem.buffer = gameData.smelting.buffer;
-                    }
-                    if (gameData.smelting.queues) {
-                        smeltingSystem.smeltingQueues = gameData.smelting.queues;
-                    }
-                    if (gameData.smelting.isProcessing) {
-                        smeltingSystem.isProcessing = gameData.smelting.isProcessing;
-                    }
-                    if (gameData.smelting.paused) {
-                        smeltingSystem.paused = gameData.smelting.paused;
-                    }
-                    if (gameData.smelting.currentProgress) {
-                        smeltingSystem.currentProgress = gameData.smelting.currentProgress;
-                    }
-
-                    // Resume any active smelting operations
-                    for (const resource in smeltingSystem.smeltingQueues) {
-                        if (smeltingSystem.smeltingQueues[resource].length > 0 && !smeltingSystem.isProcessing[resource]) {
-                            smeltingSystem.processQueue(resource);
-                        }
-                    }
+                // Load research state
+                if (gameData.research) {
+                    gameState.research = {
+                        completed: gameData.research.completed || [],
+                        unlocked: gameData.research.unlocked || [],
+                        inProgress: gameData.research.inProgress || null,
+                        progress: gameData.research.progress || 0
+                    };
                 }
 
-                // Update UI
-                smeltingSystem.updateActiveSmeltingDisplay();
+                // Load smelting state
+                if (gameData.smelting) {
+                    smeltingSystem.buffer = gameData.smelting.buffer || {};
+                    smeltingSystem.smeltingQueues = gameData.smelting.queues || {};
+                    smeltingSystem.isProcessing = gameData.smelting.isProcessing || {};
+                    smeltingSystem.paused = gameData.smelting.paused || {};
+                    smeltingSystem.currentProgress = gameData.smelting.currentProgress || {};
+                }
+
                 console.log('Game loaded successfully');
                 return true;
             }
-        } else {
-            console.log('No save found, using initial state:', INITIAL_STATE);
-            Object.assign(gameState, INITIAL_STATE);
-            // Initialize empty smelting state
-            smeltingSystem.buffer = {};
-            smeltingSystem.smeltingQueues = {};
-            smeltingSystem.isProcessing = {};
-            smeltingSystem.paused = {};
-            smeltingSystem.currentProgress = {};
         }
+        
+        console.log('No saved game found, starting new game');
+        Object.assign(gameState, INITIAL_STATE);
+        return false;
     } catch (error) {
         console.error('Failed to load game:', error);
+        Object.assign(gameState, INITIAL_STATE);
+        return false;
     }
-    return false;
 }
 
 export function clearSave() {
     try {
         localStorage.removeItem(SAVE_KEY);
+        Object.assign(gameState, INITIAL_STATE);
+        console.log('Save cleared successfully');
         return true;
     } catch (error) {
         console.error('Failed to clear save:', error);

@@ -1,5 +1,6 @@
 import { INITIAL_STATE, MAX_CLICKS } from './config.js';
 import { updateDisplayElements } from './ui/display.js';
+import { smeltingSystem } from './systems/smelting.js';
 
 class GameState {
     constructor() {
@@ -32,9 +33,14 @@ class GameState {
         updateDisplayElements();
     }
 
-
     reset() {
-        Object.assign(this, INITIAL_STATE);
+        Object.assign(this, JSON.parse(JSON.stringify(INITIAL_STATE)));
+        // Defer smelting system reset to avoid circular dependency issues
+        setTimeout(() => {
+            if (smeltingSystem && typeof smeltingSystem.reset === 'function') {
+                smeltingSystem.reset();
+            }
+        }, 0);
     }
 }
 
