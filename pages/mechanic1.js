@@ -39,19 +39,23 @@ export function getMechanic1() {
 
                 </div>
                 
-                <div class="crafting-page">
-                   <h2>Crafting</h2>
+                <div class="smelting-container">
+                <!-- Smelting buttons -->
+                <h2>Smelting</h2>
+                <button onclick="addOre('iron',1)">Smelt Iron Plate</button>
+                <button onclick="addOre('copper',1)">Smelt Copper Plate</button>
+                <button onclick="addFuel(10)">Add 1 Fuel</button>
+                <p id="smelterFuel"></p>
+                
+                <!-- Active smelting operations will appear here -->
+                <div id="active-smelting" class="active-smelting"></div>
+                </div>
 
-                <button onclick="window.craftItem('redScience')">
-                    <img src="./assets/images/craftedItems/red-science.png">
-                    <p> 1 iron & Copper Plate </p>
-                </button>
-                <button onclick="window.craftItem('greenScience')">
-                    Craft Green Science (5 copper and Iron Plate)
-                </button>
-               
-                
-                
+                <!-- Progress bar outside smelting container -->
+                <div id="progress-bar-container" style="display: none;">
+                    <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                </div>
+
                </div>
     </div>
 `;

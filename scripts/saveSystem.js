@@ -1,17 +1,24 @@
 import { gameState } from './state.js';
 import { SAVE_KEY, INITIAL_STATE } from './config.js';
-import { smeltingSystem } from './main.js'; // Ensure you import the smelting system
+import { smeltingSystem } from './systems/smelting.js';
 
 export function saveGame() {
     try {
         const gameData = {
-            resources: { ...gameState.resources },  // Create a clean copy
+            resources: { ...gameState.resources },
             craftedItems: { ...gameState.craftedItems },
             smeltedItems: { ...gameState.smeltedItems },
             systemValues: { ...gameState.systemValues },
-            smeltingBuffer: { ...smeltingSystem.buffer }, // Save the buffer
+            smelting: {
+                buffer: { ...smeltingSystem.buffer },
+                queues: { ...smeltingSystem.smeltingQueues },
+                isProcessing: { ...smeltingSystem.isProcessing },
+                paused: { ...smeltingSystem.paused },
+                currentProgress: { ...smeltingSystem.currentProgress }
+            }
         };
 
+        // Ensure all numeric values are properly converted
         for (const key in gameData.resources) {
             gameData.resources[key] = Number(gameData.resources[key]) || 0;
         }
@@ -31,12 +38,11 @@ export function loadGame() {
         if (savedData) {
             const gameData = JSON.parse(savedData);
             
-            // Validate and load saved data
             if (typeof gameData === 'object' && gameData !== null) {
                 // Start with initial state
                 Object.assign(gameState, INITIAL_STATE);
                 
-                // Then apply the saved data
+                // Load basic game state
                 if (gameData.resources) {
                     gameState.resources = gameData.resources;
                 }
@@ -49,22 +55,47 @@ export function loadGame() {
                 if (gameData.systemValues) {
                     gameState.systemValues = gameData.systemValues;
                 }
-                if (gameData.smeltingBuffer) {
-                    smeltingSystem.buffer = gameData.smeltingBuffer; // Load the buffer
+
+                // Load smelting system state
+                if (gameData.smelting) {
+                    if (gameData.smelting.buffer) {
+                        smeltingSystem.buffer = gameData.smelting.buffer;
+                    }
+                    if (gameData.smelting.queues) {
+                        smeltingSystem.smeltingQueues = gameData.smelting.queues;
+                    }
+                    if (gameData.smelting.isProcessing) {
+                        smeltingSystem.isProcessing = gameData.smelting.isProcessing;
+                    }
+                    if (gameData.smelting.paused) {
+                        smeltingSystem.paused = gameData.smelting.paused;
+                    }
+                    if (gameData.smelting.currentProgress) {
+                        smeltingSystem.currentProgress = gameData.smelting.currentProgress;
+                    }
+
+                    // Resume any active smelting operations
+                    for (const resource in smeltingSystem.smeltingQueues) {
+                        if (smeltingSystem.smeltingQueues[resource].length > 0 && !smeltingSystem.isProcessing[resource]) {
+                            smeltingSystem.processQueue(resource);
+                        }
+                    }
                 }
 
-                // Initialize smelting queues based on the loaded data
-                for (const resource of Object.keys(INITIAL_STATE.smeltingBuffer)) {
-                    smeltingSystem.smeltingQueues[resource] = smeltingSystem.smeltingQueues[resource] || [];
-                }
-
-                smeltingSystem.updateActiveSmeltingDisplay(); // Update display with loaded data
+                // Update UI
+                smeltingSystem.updateActiveSmeltingDisplay();
                 console.log('Game loaded successfully');
                 return true;
             }
         } else {
             console.log('No save found, using initial state:', INITIAL_STATE);
             Object.assign(gameState, INITIAL_STATE);
+            // Initialize empty smelting state
+            smeltingSystem.buffer = {};
+            smeltingSystem.smeltingQueues = {};
+            smeltingSystem.isProcessing = {};
+            smeltingSystem.paused = {};
+            smeltingSystem.currentProgress = {};
         }
     } catch (error) {
         console.error('Failed to load game:', error);

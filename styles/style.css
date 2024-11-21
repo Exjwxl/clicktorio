@@ -48,6 +48,8 @@
     padding: 5px 20px;
     border: 2px solid black;
     border-bottom: 0;
+    position: relative;
+    z-index: 2;
 }
 
 #stats p {
@@ -144,7 +146,160 @@ button {
 .progress-bar {
     height: 20px;
     width: 0%; /* Start with 0% width */
-    background-color: #76c7c0; /* Color of the progress */
+    background-color: #91a09f; /* Color of the progress */
     border-radius: 5px;
     transition: width 0.1s; /* Smooth transition */
 }
+
+.smelting-container {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    color: rgb(255, 255, 255);
+}
+
+/* Crafting System Styles */
+.crafting-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.recipe-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.recipe-card {
+    background: rgba(40, 44, 52, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recipe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.recipe-header img {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+}
+
+.recipe-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.recipe-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recipe-description {
+    color: #aaa;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.recipe-requirements {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.recipe-requirements p {
+    margin: 0 0 5px 0;
+    color: #fff;
+    font-weight: 500;
+}
+
+.recipe-requirements ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.recipe-requirements li {
+    color: #aaa;
+    font-size: 0.9em;
+    margin: 2px 0;
+}
+
+.recipe-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.recipe-controls button {
+    flex: 1;
+    padding: 8px;
+    background: #4a4e57;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.recipe-controls button:hover {
+    background: #5a5e67;
+}
+
+.crafting-progress {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.crafting-progress .progress-bar {
+    height: 6px;
+    background: #76c7c0;
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s;
+}
+
+.queue-count {
+    display: block;
+    text-align: center;
+    color: #aaa;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.active-crafting {
+    margin-top: 20px;
+}
+
+/* Animation for crafting progress */
+@keyframes progress-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.crafting-progress.active .progress-bar {
+    animation: progress-pulse 2s infinite;
+}
+

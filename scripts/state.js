@@ -7,8 +7,18 @@ class GameState {
     }
 
     updateResource(resourceName, amount) {
-        this.resources[resourceName] = this.resources[resourceName] + amount;
-        updateDisplayElements()
+        if (!this.resources.hasOwnProperty(resourceName)) {
+            console.error(`Invalid resource: ${resourceName}`);
+            return false;
+        }
+        const newAmount = this.resources[resourceName] + amount;
+        if (newAmount < 0) {
+            console.error(`Cannot reduce ${resourceName} below 0`);
+            return false;
+        }
+        this.resources[resourceName] = newAmount;
+        updateDisplayElements();
+        return true;
     }
 
     updateCraftedItems(craftedItems, amount) {

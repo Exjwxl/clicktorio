@@ -5,20 +5,25 @@
   --body-background-color: rgb(255, 255, 255);
 }
 
-/* Define a dark theme */
+/* Define a dark theme with recipe card colors */
 [data-theme="Dark"] {
-  --body-background-color: #393646;
-  --background-color: #4F4557;
-  --border-color: rgb(0, 0, 0);
-  --button-background-color: #6D5D6E;
-  --color: #fffefc;
-  --logo-color: rgb(255, 255, 255);
-
+  /* Base colors from recipe cards */
+  --body-background-color: rgba(0, 0, 0);
+  --background-color: rgba(40, 44, 52);
+  --border-color: rgba(255, 255, 255);
+  
+  /* Button colors */
+  --button-background-color: rgba(40, 44, 52, 0.9);
+  --button-color: #ffffff;
+  
+  /* Text colors */
+  --color: #ffffff;
+  --logo-color: #ffffff;
 }
 
 /* Define a light theme */
 [data-theme="Light"] {
-  --background-color: rgba(240, 240, 240, 0.8);
+  --background-color: rgba(240, 240, 240);
   --border-color: black;
   --body-background-color: rgb(255, 255, 255);
   --color: black;
@@ -39,16 +44,34 @@ body {
 
 #autoShop {
   background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#autoShop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 button {
   background-color: var(--button-background-color);
   color: var(--button-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 footer {
   background-color: var(--background-color);
+  border-top: 1px solid var(--border-color);
 }
+
 .logoName{
   color: var(--logo-color)
 }
@@ -56,9 +79,16 @@ footer {
 .options-style h2 {
   color: var(--logo-color);
 }
+
 .stats{
   background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  padding: 15px;
 }
+
 .modal-content{
   background-color: var(--body-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--color);
 }
