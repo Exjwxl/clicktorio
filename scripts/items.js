@@ -1,18 +1,6 @@
 import { assetManager } from './systems/assetManager.js';
 
 export const items = {
-    'ironOre': {
-        name: "Iron Ore",
-        type: "resource",
-        stackSize: 50,
-        getImage: () => assetManager.getAssetPath('iron-ore', 'resource')
-    },
-    'copperOre': {
-        name: "Copper Ore",
-        type: "resource",
-        stackSize: 50,
-        getImage: () => assetManager.getAssetPath('copper-ore', 'resource')
-    },
     'iron': {
         name: "Iron",
         type: "resource",
@@ -78,6 +66,7 @@ export const recipes = {
 
 export const SMELTING_RECIPES = {
     'ironPlate': {
+        name: "Iron Plate",
         input: {
             'iron': 1,
         },
@@ -89,6 +78,7 @@ export const SMELTING_RECIPES = {
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
     'copperPlate': {
+        name: "Copper Plate",
         input: {
             'copper': 1,
         },
@@ -100,6 +90,7 @@ export const SMELTING_RECIPES = {
         getImage: () => './assets/images/placeholder.png' // Temporary placeholder
     },
     'stoneBrick': {
+        name: "Stone Brick",
         input: {
             'stone': 1,
         },

@@ -5,31 +5,65 @@ import { showProgressBar, updateProgressBar, hideProgressBar } from '../ui/progr
 
 export class SmeltingSystem {
     constructor() {
-        this.smeltingQueues = {}; // Object to hold queues for each resource type
-        this.isProcessing = {}; // Flag to track if an operation is in progress for each resource
-        this.buffer = { ...gameState.smeltingBuffer }; // Initialize buffer from game state
-        this.paused = {}; // Track paused state for each resource queue
+        // Defer initialization until after all modules are loaded
+        setTimeout(() => this.initializeSystem(), 0);
+    }
+
+    initializeSystem() {
+        this.smeltingQueues = {}; // Object to hold queues for each recipe
+        this.isProcessing = {}; // Flag to track if an operation is in progress for each recipe
+        this.buffer = { ...(gameState.smeltingBuffer || {}) }; // Initialize buffer from game state, with fallback
+        this.paused = {}; // Track paused state for each recipe queue
         this.currentProgress = {}; // Track progress of current smelting operations
         this.activeTimers = {}; // Store active interval timers
 
-        // Initialize queues and processing flags for each resource type
-        for (const recipe of Object.values(SMELTING_RECIPES)) {
-            const resource = Object.keys(recipe.input)[0];
-            this.smeltingQueues[resource] = [];
-            this.isProcessing[resource] = false;
-            this.paused[resource] = false;
-            this.currentProgress[resource] = 0;
+        // Initialize queues and processing flags for each recipe
+        for (const [recipeId, recipe] of Object.entries(SMELTING_RECIPES)) {
+            this.smeltingQueues[recipeId] = [];
+            this.isProcessing[recipeId] = false;
+            this.paused[recipeId] = false;
+            this.currentProgress[recipeId] = 0;
         }
 
         // Also initialize any resources that might be in the buffer but not in recipes
-        for (const resource of Object.keys(this.buffer)) {
-            if (!this.smeltingQueues[resource]) {
-                this.smeltingQueues[resource] = [];
-                this.isProcessing[resource] = false;
-                this.paused[resource] = false;
-                this.currentProgress[resource] = 0;
+        if (this.buffer) {
+            for (const resource of Object.keys(this.buffer)) {
+                if (!this.smeltingQueues[resource]) {
+                    this.smeltingQueues[resource] = [];
+                    this.isProcessing[resource] = false;
+                    this.paused[resource] = false;
+                    this.currentProgress[resource] = 0;
+                }
             }
         }
+
+        // Update display after initialization
+        this.updateActiveSmeltingDisplay();
+    }
+
+    getSpeedMultiplier() {
+        let multiplier = 1;
+        
+        // Apply research effects
+        if (gameState.research.completed.includes('basicSmelting')) {
+            multiplier *= 1.2; // 20% faster
+        }
+        if (gameState.research.completed.includes('improvedSmelting')) {
+            multiplier *= 1.5; // 50% faster
+        }
+        
+        return multiplier;
+    }
+
+    getOutputMultiplier() {
+        let multiplier = 1;
+        
+        // Apply research effects
+        if (gameState.research.completed.includes('advancedSmelting')) {
+            multiplier *= 2; // Double output
+        }
+        
+        return multiplier;
     }
 
     saveBuffer() {
@@ -42,9 +76,9 @@ export class SmeltingSystem {
         const recipe = SMELTING_RECIPES[recipeId];
         if (!recipe) return false;
 
-        // Check resources availability
+        // Check resources availability in buffer
         for (const [resource, amount] of Object.entries(recipe.input)) {
-            if ((this.buffer[resource] || 0) < amount) {
+            if (!this.buffer[resource] || this.buffer[resource] < amount) {
                 return false;
             }
         }
@@ -52,7 +86,8 @@ export class SmeltingSystem {
     }
 
     hasSufficientFuel(recipe) {
-        return gameState.systemValues.smelterFuel >= recipe.burnValue;
+        // Check if we have enough fuel for the complete operation
+        return (gameState.systemValues.smelterFuel || 0) >= recipe.burnValue;
     }
 
     startSmelting(recipeId) {
@@ -68,188 +103,191 @@ export class SmeltingSystem {
                 this.buffer[inputResource] -= amount;
             }
             
-            this.smeltingQueues[resource].push(recipeId);
+            this.smeltingQueues[recipeId].push(recipeId);
             this.saveBuffer();
-            this.updateActiveSmeltingDisplay(resource);
+            this.updateActiveSmeltingDisplay(recipeId);
             
             // Try to process queue if not already processing
-            if (!this.isProcessing[resource]) {
-                this.processQueue(resource);
+            if (!this.isProcessing[recipeId]) {
+                this.processQueue(recipeId);
             }
             return true;
         }
         return false;
     }
 
-    processQueue(resource) {
-        if (!this.smeltingQueues[resource] || 
-            this.smeltingQueues[resource].length === 0 || 
-            this.isProcessing[resource]) {
+    processQueue(recipeId) {
+        if (!this.smeltingQueues[recipeId] || 
+            this.smeltingQueues[recipeId].length === 0 || 
+            this.isProcessing[recipeId]) {
             return;
         }
 
-        const recipeId = this.smeltingQueues[resource][0];
         const recipe = SMELTING_RECIPES[recipeId];
 
         if (!this.hasSufficientFuel(recipe)) {
-            this.pauseSmelting(resource);
+            this.pauseSmelting(recipeId);
             return;
         }
 
-        this.isProcessing[resource] = true;
-        this.paused[resource] = false;
+        this.isProcessing[recipeId] = true;
+        this.paused[recipeId] = false;
 
-        // Deduct fuel at the start of processing
-        gameState.systemValues.smelterFuel -= recipe.burnValue;
-        updateDisplayElements();
+        // Apply speed multiplier from research
+        const speedMultiplier = this.getSpeedMultiplier();
+        const processTime = Math.floor(recipe.smeltTime / speedMultiplier);
 
-        // Create or update progress tracking for this resource
-        if (!this.currentProgress[resource]) {
-            this.currentProgress[resource] = 0;
+        // Start progress tracking
+        this.currentProgress[recipeId] = 0;
+        showProgressBar(recipeId);
+
+        // Clear any existing timer
+        if (this.activeTimers[recipeId]) {
+            clearInterval(this.activeTimers[recipeId]);
         }
 
-        if (!this.activeTimers[resource]) {
-            this.activeTimers[resource] = setInterval(() => {
-                if (this.paused[resource]) return;
+        // Set up progress updates
+        const updateInterval = 100; // Update every 100ms
+        const progressPerUpdate = (updateInterval / processTime) * 100;
 
-                this.currentProgress[resource] += 100; // Increment by 100ms
-                const progressPercentage = Math.min((this.currentProgress[resource] / recipe.smeltTime) * 100, 100);
-                
-                this.updateActiveSmeltingDisplay(resource);
+        this.activeTimers[recipeId] = setInterval(() => {
+            if (this.paused[recipeId]) return;
 
-                if (this.currentProgress[resource] >= recipe.smeltTime) {
-                    this.completeSmelting(resource);
-                }
-            }, 100);
-        }
+            this.currentProgress[recipeId] += progressPerUpdate;
+            updateProgressBar(recipeId, this.currentProgress[recipeId]);
+
+            if (this.currentProgress[recipeId] >= 100) {
+                this.completeSmelting(recipeId);
+            }
+        }, updateInterval);
+
+        this.updateActiveSmeltingDisplay(recipeId);
     }
 
-    completeSmelting(resource) {
-        if (!this.smeltingQueues[resource] || this.smeltingQueues[resource].length === 0) {
-            return;
-        }
+    completeSmelting(recipeId) {
+        if (!this.isProcessing[recipeId] || this.smeltingQueues[recipeId].length === 0) return;
 
-        const recipeId = this.smeltingQueues[resource].shift();
+        // Remove the completed recipe from the queue
+        this.smeltingQueues[recipeId].shift();
         const recipe = SMELTING_RECIPES[recipeId];
 
         // Clear the timer
-        if (this.activeTimers[resource]) {
-            clearInterval(this.activeTimers[resource]);
-            delete this.activeTimers[resource];
+        if (this.activeTimers[recipeId]) {
+            clearInterval(this.activeTimers[recipeId]);
+            delete this.activeTimers[recipeId];
         }
 
-        // Add output resources to smelted items
-        for (const [outputResource, amount] of Object.entries(recipe.output)) {
-            gameState.updateSmeltedItems(outputResource, amount);
-            gameState.updateResource(outputResource, amount);
-        }
-
-        this.isProcessing[resource] = false;
-        this.currentProgress[resource] = 0;
+        // Apply research multiplier to output
+        const outputMultiplier = this.getOutputMultiplier();
         
+        // Add products with multiplier
+        for (const [product, amount] of Object.entries(recipe.output)) {
+            gameState.smeltedItems[product] = (gameState.smeltedItems[product] || 0) + (amount * outputMultiplier);
+        }
+
+        // Safely consume fuel
+        if (gameState.systemValues.smelterFuel >= recipe.burnValue) {
+            gameState.systemValues.smelterFuel -= recipe.burnValue;
+        } else {
+            // If somehow we got here without enough fuel, set to 0 instead of negative
+            gameState.systemValues.smelterFuel = 0;
+            // Pause smelting since we're out of fuel
+            this.pauseSmelting(recipeId);
+        }
+
+        // Reset processing state
+        this.isProcessing[recipeId] = false;
+        this.currentProgress[recipeId] = 0;
+        hideProgressBar(recipeId);
+
         // Update display
-        this.updateActiveSmeltingDisplay(resource);
         updateDisplayElements();
+        this.updateActiveSmeltingDisplay(recipeId);
 
-        // Process next item in queue if available and has fuel
-        if (this.smeltingQueues[resource].length > 0) {
-            this.processQueue(resource);
-        }
-    }
-
-    pauseSmelting(resource) {
-        this.paused[resource] = true;
-        // Keep the progress but stop processing
-        if (this.activeTimers[resource]) {
-            clearInterval(this.activeTimers[resource]);
-            delete this.activeTimers[resource];
-        }
-    }
-
-    resumeSmeltingIfPossible(resource) {
-        if (this.paused[resource] && this.smeltingQueues[resource].length > 0) {
-            const recipeId = this.smeltingQueues[resource][0];
-            const recipe = SMELTING_RECIPES[recipeId];
-            
+        // Process next item in queue if exists and we have fuel
+        if (this.smeltingQueues[recipeId].length > 0) {
             if (this.hasSufficientFuel(recipe)) {
-                this.paused[resource] = false;
-                this.processQueue(resource);
+                this.processQueue(recipeId);
+            } else {
+                this.pauseSmelting(recipeId);
             }
         }
     }
 
-    updateActiveSmeltingDisplay(resource) {
-        const activeSmeltingDiv = document.getElementById('active-smelting');
-        if (!activeSmeltingDiv) return;
+    pauseSmelting(recipeId) {
+        if (this.activeTimers[recipeId]) {
+            clearInterval(this.activeTimers[recipeId]);
+            delete this.activeTimers[recipeId];
+        }
+        this.paused[recipeId] = true;
+        this.updateActiveSmeltingDisplay(recipeId);
+    }
 
-        // Clear existing display if no resource specified
-        if (!resource) {
-            activeSmeltingDiv.innerHTML = '';
-            for (const res in this.smeltingQueues) {
-                this.updateActiveSmeltingDisplay(res);
+    resumeSmeltingIfPossible(recipeId) {
+        const recipe = SMELTING_RECIPES[recipeId];
+        if (!recipe) return;
+
+        if (this.hasSufficientFuel(recipe)) {
+            this.processQueue(recipeId);
+        }
+    }
+
+    updateActiveSmeltingDisplay(recipeId) {
+        const container = document.getElementById('active-smelting');
+        if (!container) return;
+
+        // Clear existing content
+        container.innerHTML = '';
+
+        // Create a list of all active smelting operations
+        for (const [queueId, queue] of Object.entries(this.smeltingQueues)) {
+            if (queue.length > 0) {
+                const recipe = SMELTING_RECIPES[queueId];
+                if (!recipe) continue; // Skip if recipe not found
+                
+                const div = document.createElement('div');
+                div.className = 'smelting-operation';
+                div.setAttribute('data-recipe-id', queueId);
+                
+                const status = this.paused[queueId] ? 'Paused' : 
+                              this.isProcessing[queueId] ? 'Processing' : 
+                              'Queued';
+                
+                const speedMultiplier = this.getSpeedMultiplier();
+                const outputMultiplier = this.getOutputMultiplier();
+                
+                div.innerHTML = `
+                    <div class="smelting-header">
+                        <span>${recipe.name}</span>
+                        <span class="status ${status.toLowerCase()}">${status}</span>
+                    </div>
+                    <div class="smelting-info">
+                        <span>Queue: ${queue.length}</span>
+                        <span>Speed: ${speedMultiplier.toFixed(1)}x</span>
+                        <span>Output: ${outputMultiplier.toFixed(1)}x</span>
+                    </div>
+                `;
+                container.appendChild(div);
+                
+                // Re-show progress bar if operation is processing
+                if (this.isProcessing[queueId]) {
+                    showProgressBar(queueId);
+                    updateProgressBar(queueId, this.currentProgress[queueId] || 0);
+                }
             }
-            return;
-        }
-
-        // Ensure the queue exists for this resource
-        if (!this.smeltingQueues[resource]) {
-            this.smeltingQueues[resource] = [];
-            this.isProcessing[resource] = false;
-            this.paused[resource] = false;
-            this.currentProgress[resource] = 0;
-        }
-
-        // Get or create the resource's display div
-        let resourceDiv = activeSmeltingDiv.querySelector(`.smelting-operation-${resource}`);
-        if (!resourceDiv) {
-            resourceDiv = document.createElement('div');
-            resourceDiv.className = `smelting-operation-${resource}`;
-            activeSmeltingDiv.appendChild(resourceDiv);
-        }
-
-        // Calculate progress
-        const progressPercentage = this.isProcessing[resource] && this.smeltingQueues[resource].length > 0
-            ? (this.currentProgress[resource] / SMELTING_RECIPES[this.smeltingQueues[resource][0]].smeltTime) * 100 
-            : 0;
-
-        // Update the resource div content
-        resourceDiv.innerHTML = `
-            <div class="queue-info">
-                <span class="resource-name">${resource}</span>
-                <span class="queue-count">${this.smeltingQueues[resource].length} in queue</span>
-                ${this.isProcessing[resource] ? 
-                    `<div class="progress-container">
-                        <div class="progress-bar" style="width: ${progressPercentage}%"></div>
-                    </div>` 
-                    : ''}
-            </div>
-        `;
-
-        // Remove the div if queue is empty and not processing
-        if (this.smeltingQueues[resource].length === 0 && !this.isProcessing[resource]) {
-            resourceDiv.remove();
         }
     }
 
     checkAndResumeSmelting() {
-        // Check all paused queues and resume if possible
-        for (const resource in this.paused) {
-            if (this.paused[resource]) {
-                this.resumeSmeltingIfPossible(resource);
+        for (const recipeId of Object.keys(this.smeltingQueues)) {
+            if (this.paused[recipeId]) {
+                this.resumeSmeltingIfPossible(recipeId);
             }
         }
     }
 
     addOre(oreType, amount) {
         if (amount <= 0) return;
-
-        // Ensure the resource exists in our queues
-        if (!this.smeltingQueues[oreType]) {
-            this.smeltingQueues[oreType] = [];
-            this.isProcessing[oreType] = false;
-            this.paused[oreType] = false;
-            this.currentProgress[oreType] = 0;
-        }
 
         // Check if player has enough resources
         const availableOre = gameState.resources[oreType] || 0;
@@ -258,14 +296,9 @@ export class SmeltingSystem {
             return;
         }
 
-        // Initialize buffer for this ore type if it doesn't exist
-        if (!this.buffer[oreType]) {
-            this.buffer[oreType] = 0;
-        }
-
         // Move ore from inventory to buffer
-        this.buffer[oreType] += amount;
-        gameState.updateResource(oreType, -amount);
+        this.buffer[oreType] = (this.buffer[oreType] || 0) + amount;
+        gameState.resources[oreType] -= amount;
 
         // Find appropriate smelting recipe for this ore
         for (const [recipeId, recipe] of Object.entries(SMELTING_RECIPES)) {
@@ -274,13 +307,15 @@ export class SmeltingSystem {
                 const recipeInputAmount = recipe.input[oreType];
                 const timesToAdd = Math.floor(amount / recipeInputAmount);
                 
-                for (let i = 0; i < timesToAdd; i++) {
-                    this.smeltingQueues[oreType].push(recipeId);
-                }
-
-                // Try to start processing if we're not already
-                if (!this.isProcessing[oreType]) {
-                    this.processQueue(oreType);
+                if (timesToAdd > 0) {
+                    // Initialize queue for this recipe if it doesn't exist
+                    if (!this.smeltingQueues[recipeId]) {
+                        this.smeltingQueues[recipeId] = [];
+                    }
+                    
+                    for (let i = 0; i < timesToAdd; i++) {
+                        this.startSmelting(recipeId);
+                    }
                 }
                 break;
             }
@@ -291,26 +326,27 @@ export class SmeltingSystem {
     }
 
     addFuel(amount) {
-        if (amount <= 0) return;
-
-        const availableFuel = gameState.resources.coal || 0;
-        if (availableFuel < amount) {
-            console.log(`Not enough coal available. Have: ${availableFuel}, Need: ${amount}`);
-            return;
-        }
-
-        // Add fuel to the system
-        gameState.updateResource('coal', -amount);
         gameState.systemValues.smelterFuel += amount;
+        this.checkAndResumeSmelting();
+        updateDisplayElements();
+    }
 
-        // Try to resume any paused operations
-        for (const resource in this.paused) {
-            if (this.paused[resource]) {
-                this.resumeSmeltingIfPossible(resource);
+    reset() {
+        // Clear all active timers
+        for (const [recipeId, timer] of Object.entries(this.activeTimers)) {
+            if (timer) {
+                clearInterval(timer);
             }
         }
 
-        updateDisplayElements();
+        // Clear all state
+        this.initializeSystem();
+
+        // Clear local storage
+        localStorage.removeItem('smeltingBuffer');
+
+        // Update display
+        this.updateActiveSmeltingDisplay();
     }
 }
 

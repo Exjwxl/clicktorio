@@ -36,15 +36,20 @@ export function getMechanic1() {
                     </button>
                
                 </div>
-
+                <p id="efficiency"></p>        
                 </div>
-                
+            </section>   
                 <div class="smelting-container">
                 <!-- Smelting buttons -->
                 <h2>Smelting</h2>
-                <button onclick="addOre('iron',1)">Smelt Iron Plate</button>
-                <button onclick="addOre('copper',1)">Smelt Copper Plate</button>
-                <button onclick="addFuel(10)">Add 1 Fuel</button>
+                <span>Smelt Iron </span>
+                <button onclick="addOre('iron',1)">x1</button>
+                <button onclick="addOre('iron',5)">x5</button>
+                <span>Smelt Copper </span>
+                
+                <button onclick="addOre('copper',1)">x1</button>
+                <button onclick="addOre('copper',5)">x5</button>
+                <button onclick="addFuel(10)">Add 10 Coal</button>
                 <p id="smelterFuel"></p>
                 
                 <!-- Active smelting operations will appear here -->

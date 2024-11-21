@@ -1,8 +1,9 @@
 import { formatNumber } from "../ui/formatters.js";
 import { gameState } from "../state.js";
-import {getMechanic1} from '../../pages/mechanic1.js';
-import {getMechanic2} from '../../pages/mechanic2.js';
-import {getMechanic3} from '../../pages/mechanic3.js';
+import { getMechanic1 } from '../../pages/mechanic1.js';
+import { getMechanic2 } from '../../pages/mechanic2.js';
+import { getMechanic3, initMechanic3 } from '../../pages/mechanic3.js';
+import { researchSystem } from '../systems/research.js';
 
 export function updateDisplayElements() {
     // Helper function to safely update element with optional formatting
@@ -25,12 +26,22 @@ export function updateDisplayElements() {
     updateElement('copperPlate', gameState.smeltedItems.copperPlate);
     updateElement('redScience', gameState.craftedItems.redScience);
     updateElement('greenScience', gameState.craftedItems.greenScience);
+
+    // Update research display if on research tab
+    const researchPanel = document.querySelector('.research-panel');
+    if (researchPanel) {
+        researchSystem.updateResearchDisplay();
+    }
 }
 
 export function loadScreens(){
     document.getElementById('loadMechanic1').addEventListener('click', () => switchContent(getMechanic1));
     document.getElementById('loadMechanic2').addEventListener('click', () => switchContent(getMechanic2));
-    document.getElementById('loadMechanic3').addEventListener('click', () => switchContent(getMechanic3));
+    document.getElementById('loadMechanic3').addEventListener('click', () => {
+        switchContent(getMechanic3);
+        // Initialize research when switching to mechanic3
+        initMechanic3();
+    });
 }
 
 // Add this function to load the correct mechanic
