@@ -41,6 +41,8 @@
 .stats{
     position: sticky;
     top: 0;
+    z-index: 2;
+
 }
 #stats{
     display: flex;
@@ -48,8 +50,6 @@
     padding: 5px 20px;
     border: 2px solid black;
     border-bottom: 0;
-    position: relative;
-    z-index: 2;
 }
 
 #stats p {
